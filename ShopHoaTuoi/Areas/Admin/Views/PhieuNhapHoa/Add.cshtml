@@ -62,10 +62,7 @@
                     @Html.DropDownListFor(x => x.mancc, ViewBag.NCC as SelectList, "-Chọn nhà cùng cấp-", new { @class = "form-control" })
                     @Html.ValidationMessageFor(x => x.mancc, null, new { @class = "text-danger" })
                 </div>
-                            <div class="form-group">
-                                <label for="tongTien">Tổng tiền</label>
-                                <input type="number" class="form-control" name="tongTien" required>
-                            </div>
+                         
                             <div class="form-group">
                                 <label for="danhSachSanPham">Danh sách sản phẩm</label>
                                 <table class="table table-bordered">
