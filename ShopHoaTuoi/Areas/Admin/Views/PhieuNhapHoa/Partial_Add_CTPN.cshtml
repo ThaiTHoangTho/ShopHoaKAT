@@ -1,0 +1,117 @@
+﻿@model ShopHoaTuoi.Models.EF.CT_PHIEUNHAPHOA
+@{
+    ViewBag.Title = "Chi tiết phiếu nhập hoa";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/nhacungcap" class="nav-link">Chi tiết phiếu nhập</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thêm mới</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@ViewBag.Title</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Lập phiếu nhập</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+        </div>
+        <div class="card-body">
+            <div class="bs-stepper-content">
+                @using (Html.BeginForm("Add_CTPN", "PhieuNhapHoa", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <!-- your steps content here -->
+                    <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Hoa</label>
+                            @Html.DropDownListFor(x => x.mahoa, ViewBag.HOA as SelectList, "-Chọn hoa-", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.mahoa, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Giá nhập</label>
+                                <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-dec="," data-a-sep=".">
+                                @Html.HiddenFor(x => x.gianhap, new { @class = "", @placeholder = "Giá" })
+                                @Html.ValidationMessageFor(x => x.gianhap, null, new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Số lượng</label>
+                                <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-dec="," data-a-sep=".">
+                                @Html.HiddenFor(x => x.soluong, new { @class = "", @placeholder = "Giá" })
+                                @Html.ValidationMessageFor(x => x.soluong, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="/admin/phieunhaphoa" class="btn btn-outline-danger">Quay lại</a>
+                            <button type="submit" class="btn btn-outline-success">Lưu</button>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+@section  scripts{
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/content/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(field).value = fileUrl;
+            };
+            finder.popup();
+        }
+
+    </script>
+}

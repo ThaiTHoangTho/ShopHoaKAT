@@ -1,0 +1,163 @@
+﻿@model ShopHoaTuoi.Models.PhieuNhapViewModel
+@{
+    ViewBag.Title = "Lập phiếu nhập hoa";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/nhacungcap" class="nav-link">Lập phiếu nhập</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thêm mới</a>
+        </li>
+    </ul>
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@ViewBag.Title</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Lập phiếu nhập</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+        </div>
+        <div class="card-body">
+            <div class="bs-stepper-content">
+                @using (Html.BeginForm("Add", "PhieuNhapHoa", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <!-- your steps content here -->
+                        
+                <div class="form-group">
+                    <label for="nhaCungCap">Nhà cung cấp</label>
+                    @Html.DropDownListFor(x => x.mancc, ViewBag.NCC as SelectList, "-Chọn nhà cùng cấp-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.mancc, null, new { @class = "text-danger" })
+                </div>
+                            <div class="form-group">
+                                <label for="tongTien">Tổng tiền</label>
+                                <input type="number" class="form-control" name="tongTien" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="danhSachSanPham">Danh sách sản phẩm</label>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Hoa</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                @Html.DropDownListFor(x => x.mahoa, ViewBag.HOA as SelectList, "-Chọn loại hoa-", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.mahoa, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                <input type="text" name="demoPrice" value="0" id="demoPrice" class="form-control auto" data-a-dec="," data-a-sep=".">
+                                                @Html.HiddenFor(x => x.gianhap, new { @class = "", @placeholder = "Giá" })
+                                                @Html.ValidationMessageFor(x => x.gianhap, null, new { @class = "text-danger" })
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="soluong" required>
+                                            </td>
+                                         
+                                        </tr>
+                                       @* <tr>
+                                            <td>2</td>
+                                            <td>
+                                                @Html.DropDownListFor(x => x.mahoa, ViewBag.HOA as SelectList, "-Chọn loại hoa-", new { @class = "form-control" })
+                                                                                        @Html.ValidationMessageFor(x => x.mahoa, null, new { @class = "text-danger" })
+                                                                                    </td>
+                                            <td><input type="text" class="form-control" name="tenSanPham2"></td>
+                                            <td><input type="number" class="form-control" name="soLuong2"></td>
+                                            <td><input type="number" class="form-control" name="donGia2"></td>
+                                            <td><input type="number" class="form-control" name="thanhTien2"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>...</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                            </div
+                <div class="form-group">
+                    <a href="/admin/nhacungcap" class="btn btn-outline-danger">Quay lại</a>
+                    <button type="submit" class="btn btn-outline-success">Lưu</button>
+
+                }
+
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+
+        </div>
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+@section  scripts{
+    <script>
+        $(document).ready(function () {
+            $('.auto').autoNumeric('init');
+            $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPrice').autoNumeric('get');
+                $('#gianhap').val(demoGet);
+                $('#gianhap').autoNumeric('set', demoGet);
+            });
+            CKEDITOR.replace('txtDetail', {
+                customConfig: '/content/ckeditor/config.js',
+                extraAllowedContent: 'span',
+            });
+        });
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(field).value = fileUrl;
+            };
+            finder.popup();
+        }
+
+    </script>
+}
