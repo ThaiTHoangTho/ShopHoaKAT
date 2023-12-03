@@ -31,7 +31,7 @@
 
 </head>
 <body>
-
+  
     <div class="super_container">
 
         <!-- Header -->
@@ -53,23 +53,28 @@
                                 </ul>
                                 <ul class="navbar_user">
                                     <li>
-                                      @*  <form action="/Product/Search" method="post">
-                                            <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm"  class="form-control form-inline">
-                                            <input type="submit" value="Tìm kiếm">
-                                        </form>*@
+                                        @*  <form action="/Product/Search" method="post">
+                <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm"  class="form-control form-inline">
+                <input type="submit" value="Tìm kiếm">
+            </form>*@
 
                                         <form action="/Product/Search" method="post">
                                             <div class="form-group form-inline">
                                                 <input placeholder="Tìm kiếm" name="keyword" class="form-control form-inline" />
-                                                
+
                                                 <button type="submit" class="btn btn-outline-light btn-search">
-                                                    <i class="fa fa-search"  aria-hidden="true"></i>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </form>
                                     </li>
-                                
-                                    <li><a href="/login"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                    @{ var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.taikhoan;}
+                                    @{if (user == null)
+                                        {
+                                            <li><a href="/login"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                        }
+                                    }
+                                    <li><a style="color:ghostwhite" href="#">Xin chao: @user.username</a></li>
                                     <li class="checkout">
                                         <a href="/shoppingcart">
                                             <i class="fa fa-shopping-cart" aria-hidden="true"></i>

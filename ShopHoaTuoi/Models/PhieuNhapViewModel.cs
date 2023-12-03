@@ -1,5 +1,6 @@
 ﻿using ShopHoaTuoi.Models.EF;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace ShopHoaTuoi.Models
     public class PhieuNhapViewModel
     {
         [Key]
-        public int mapn { get; set; }
+        public int id { get; set; }
         [Required(ErrorMessage = "Vui lòng chọn tên nhà cung cấp")]
-        public int mancc  { get; set; }
+        public int mancc { get; set; }
         [Phone]
         [Required(ErrorMessage = "Vui lòng chọn mã hoa")]
         public int mahoa { get; set; }
@@ -23,7 +24,9 @@ namespace ShopHoaTuoi.Models
         public DateTime ngaylap { get; set; }
 
         public virtual HOA HOA { get; set; }
+
         public virtual NHACUNGCAP NHACUNGCAP { get; set; }
+      
         public object CT_PHIEUNHAPHOA  { get; internal set; }
     }
 }

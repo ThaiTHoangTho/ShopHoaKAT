@@ -21,7 +21,6 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
         }
         public ActionResult Add()
         {
-           
             ViewBag.NCC = new SelectList(db.NHACUNGCAPs.ToList(), "mancc", "tenncc");
             ViewBag.HOA = new SelectList(db.HOAs.ToList(), "mahoa", "tenhoa");
             return View();

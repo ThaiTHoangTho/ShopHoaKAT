@@ -26,10 +26,8 @@ namespace ShopHoaTuoi.Controllers
                 var result = dao.Login(model.tendangnhap, model.matkhau);
                 if (result == 1)
                 {
-                    var user = dao.getItems(model.tendangnhap);
-                    var session = new taikhoan();
-                    session.username = user.username;
-                    Session.Add(Hoa_funt.USER_SESSION, session);
+
+                    Session["taikhoan"] = result;
                     var checkrole = dao.checkRole(model.tendangnhap);
                     switch(checkrole)
                     {
