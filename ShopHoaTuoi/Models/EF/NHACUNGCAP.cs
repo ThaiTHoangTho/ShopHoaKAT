@@ -13,6 +13,7 @@ namespace ShopHoaTuoi.Models.EF
         public NHACUNGCAP()
         {
             PHIEUNHAPHOAs = new HashSet<PHIEUNHAPHOA>();
+            PhieuNhapViewModels= new HashSet<PhieuNhapViewModel>();
         }
 
         [Key]
@@ -29,5 +30,6 @@ namespace ShopHoaTuoi.Models.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PHIEUNHAPHOA> PHIEUNHAPHOAs { get; set; }
+        public virtual ICollection<PhieuNhapViewModel> PhieuNhapViewModels { get; set; }
     }
 }

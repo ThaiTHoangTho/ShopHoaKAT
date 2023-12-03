@@ -10,6 +10,8 @@ namespace ShopHoaTuoi.Models
 {
     public class PhieuNhapViewModel
     {
+        [Key]
+        public int mapn { get; set; }
         [Required(ErrorMessage = "Vui lòng chọn tên nhà cung cấp")]
         public int mancc  { get; set; }
         [Phone]
