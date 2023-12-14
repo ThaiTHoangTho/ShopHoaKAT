@@ -7,7 +7,9 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
-<div class="container product_section_container">
+<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/flatsome-shop..css" rel="stylesheet" />
+<div class="container fill_height">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -28,7 +30,7 @@
             <div class="sidebar">
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5></a>Danh mục hoa</h5>
+                        <h5><a href="/product">Loại Hoa</a></h5>
                     </div>
                     @Html.Action("MenuLeft", "Menu", new { id = ViewBag.CateId })
                 </div>
@@ -101,16 +103,16 @@
                             <div class="product_sorting_container product_sorting_container_top">
                                 <ul class="product_sorting">
                                     <li>
-                                        <span class="type_sorting_text">Default Sorting</span>
+                                        <span class="type_sorting_text">Hiển thị theo</span>
                                         <i class="fa fa-angle-down"></i>
                                         <ul class="sorting_type">
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Default Sorting</span></li>
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Price</span></li>
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Product Name</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Hiển thị theo</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Giá</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Tên hoa</span></li>
                                         </ul>
                                     </li>
                                     <li>
-                                        <span>Show</span>
+                                        <span>Hiển thị</span>
                                         <span class="num_sorting_text">6</span>
                                         <i class="fa fa-angle-down"></i>
                                         <ul class="sorting_num">
@@ -144,7 +146,7 @@
                                 {
                                     foreach (var item in Model)
                                     {
-                                       
+
                                         <div class="product-item @item.LOAIHOA.maloai">
                                             <div class="product discount product_filter">
                                                 <div class="product_image">
@@ -158,8 +160,8 @@
                                             </div>
                                             <div class="red_button add_to_cart_button"><a href="#" class="btnAddtocart" data-id="@item.mahoa">add to cart</a></div>
                                         </div>
-                                            
-                                 
+
+
 
                                     }
                                 }

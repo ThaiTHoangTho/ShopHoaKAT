@@ -17,13 +17,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
+    <link href="~/Content/assets/styles/flatsome-shop.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @* @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
     <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
@@ -31,143 +29,185 @@
 
 </head>
 <body>
-  
     <div class="super_container">
 
         <!-- Header -->
 
-            <header >
+        <header>
 
-                <!-- Top Navigation -->
+            <!-- Top Navigation -->
 
-                <div class="main_nav_container" style="background-color: #E1CFBB ">
-                    <div class="container">
-                        <div class="row" style="margin-right:-150px">
-                            <div class="col-lg-12 text-right" >
-                                <div class="logo_container">
-                                    <a href="/"><span style="font-family: 'Merienda', cursive; color:saddlebrown " >HIGHKAT FLOWER</span></a>
-                                </div>
-                                <nav class="navbar">
-                                    <ul class="navbar_menu" style="font-family: 'Baloo 2', cursive;">
-                                        <li><a href="/">Trang chủ</a></li>
-                                        <li><a href="/product">Hoa</a></li>
-                                        <li><a href="/gioithieu">Giới thiệu</a></li>
-                                        <li><a href="/contact">Liên hệ</a></li>
-                                    </ul>
-                                    <ul class="navbar_user">
-                                        <li>
-                                            @*  <form action="/Product/Search" method="post">
-                    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm"  class="form-control form-inline">
-                    <input type="submit" value="Tìm kiếm">
-                </form>*@
-
-                                            <form action="/Product/Search" method="post">
-                                                <div class="form-group form-inline">
-                                                    <input placeholder="Tìm kiếm" name="keyword" class="form-control form-inline" />
-
-                                                    <button type="submit" class="btn btn-outline-light btn-search">
-                                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                        <li class="checkout">
-                                            <a href="/shoppingcart">
-                                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                                                <span id="checkout_items" class="checkout_items">0</span>
+            <div class="main_nav_container" style="background-color: #E1CFBB ">
+                <div class="container">
+                    <div class="row" style="margin-right:-150px">
+                        <div class="col-lg-12 text-right">
+                            <div class="logo_container">
+                                <a href="/"><span style="font-family: 'Merienda', cursive; color:saddlebrown ">HIGHKAT FLOWER</span></a>
+                            </div>
+                            <nav class="navbar">
+                                @Html.Action("MenuTop", "Menu")
+                                <ul class="navbar_user">
+                                    <li>
+                                        <form action="/Product/Search" method="post">
+                                            <div class="form-group form-inline">
+                                                <input placeholder="Tìm kiếm" name="keyword" class="form-control form-inline" />
+                                                <button type="submit" class="btn btn-outline-light btn-search">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="checkout">
+                                        <a href="/shoppingcart">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            <span id="checkout_items" class="checkout_items">0</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                @{var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.TAIKHOAN;}
+                                @{if (user != null)
+                                    {
+                                        <li class="account" style="background-color: #E1CFBB ">
+                                            <a href="#">
+                                                @user.username
+                                                <i class="fa fa-angle-down"></i>
                                             </a>
-                                        </li>
-                                    </ul>
-                                    @{var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.taikhoan;}
-                                    @{if (user != null)
-                                        {
-
-                                            // <li><a style="color:ghostwhite" href="/taikhoan">Xin chao: @user.username</a></li>
-                                            <li class="account" style="background-color: #E1CFBB ">
-                                                <a href="#">
-                                                    @user.username
-                                                    <i class="fa fa-angle-down"></i>
-                                                </a>
-                                                <ul class="account_selection">
-                                                    <li><a href="/login/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
-                                                    <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>
-                                                </ul>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="account" style="background-color: #E1CFBB ">
-                                                <a href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
-                                            </li>
                                             <ul class="account_selection">
-                                                <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
+                                                <li><a href="/login/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
                                                 <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>
                                             </ul>
-                                                }
-                                                }
-                                                <div class="hamburger_container">
-                                                    <i class="fa fa-bars" aria-hidden="true"></i>
-                                                </div>
-                                        </nav>
-                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="account" style="background-color: #E1CFBB ">
+                                            <a href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                        </li>
+                                        <ul class="account_selection">
+                                            <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
+                                            <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>
+                                        </ul>
+                                    }
+                                }
+                                <div class="hamburger_container">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                            </nav>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </header>
+        </header>
 
+        @RenderBody()
 
-            @RenderBody()
+        <!-- Footer -->
 
-            <!-- Footer -->
-
-            <footer class="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-                                <ul class="footer_nav">
-                                    <li><a href="#">Bài viết</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                            <ul class="footer_nav">
+                                <li><a href="#">Bài viết</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="tg_contact_fixed_2021">
-                        <ul>
-                            <li>
-                                <a href="https://www.facebook.com/highkat" data-toggle="tooltip" data-html="true" target="_blank" data-placement="left" title="
+                    <div class="col-lg-6">
+                        <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="hamburger_container">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="tg_contact_fixed_2021">
+                    <ul>
+                        <li>
+                            <a href="https://www.facebook.com/highkat" data-toggle="tooltip" data-html="true" target="_blank" data-placement="left" title="
                     Chat Messenger" data-original-title="Messenger" data-wpel-link="external" rel="nofollow">
-                                    <img src="~/Content/assets/image/iconmess.png" width="50px" />
+                                <img src="~/Content/assets/image/iconmess.png" width="50px" />
 
-                                    <span class="aml-text-content aml-tooltiptext">Liên hệ qua Messenger</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="footer_nav_container" style="text-align:center">
-                                <div class="cr">©2022 HighKAT_Flower <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">We’ll always talk you through the flowers which look great</a></div>
-                            </div>
+                                <span class="aml-text-content aml-tooltiptext">Liên hệ qua Messenger</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer_nav_container" style="text-align:center">
+                            <div class="cr">©2022 HighKAT_Flower <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">We’ll always talk you through the flowers which look great</a></div>
                         </div>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </footer>
 
-</div>
+    </div>
+    <div id="button-contact-vr" class="">
+        <div id="gom-all-in-one">
+            <!-- v3 -->
+            <!-- zalo -->
+            <div id="zalo-vr" class="button-contact">
+                <div class="phone-vr">
+                    <div class="phone-vr-circle-fill"></div>
+                    <div class="phone-vr-img-circle">
+                        <a target="_blank" href="https://zalo.me/0937051919">
+                            <img alt="Zalo" src="~/Content/assets/image/zalo-icon.png", data-ll-status="loaded" class="entered lazyloaded"><noscript>
+    <img alt="Zalo" src="~/Content/assets/image/zalo-icon.png" />" /></noscript>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- end zalo -->
+            <!-- Phone -->
+            <div id="phone-vr" class="button-contact">
+                <div class="phone-vr">
+                    <div class="phone-vr-circle-fill"></div>
+                    <div class="phone-vr-img-circle">
+                        <a href="tel:0905993626">
+                            <img alt="Phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-lazy-src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-ll-status="loaded" class="entered lazyloaded"><noscript><img alt="Phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" /></noscript>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="phone-bar phone-bar-n">
+                <a href="tel:0905993626">
+                    <span class="text-phone">0905 993 626</span>
+                </a>
+            </div>
+            <!-- end phone -->
+            <!-- Phone -->
+            <div id="phone-vr2" class="button-contact">
+                <div class="phone-vr">
+                    <div class="phone-vr-circle-fill"></div>
+                    <div class="phone-vr-img-circle">
+                        <a href="tel:0938434660">
+                            <img alt="phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-lazy-src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-ll-status="loaded" class="entered lazyloaded"><noscript><img alt="phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" /></noscript>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="phone-bar phone-bar2 phone-bar-n">
+                <a href="tel:0938434660">
+                    <span class="text-phone">0938 434 660</span>
+                </a>
+            </div>
+            <!-- end phone 2 -->
 
+        </div><!-- end v3 class gom-all-in-one -->
+
+
+    </div>
     @* @Scripts.Render("~/bundles/jquery")*@
 
 

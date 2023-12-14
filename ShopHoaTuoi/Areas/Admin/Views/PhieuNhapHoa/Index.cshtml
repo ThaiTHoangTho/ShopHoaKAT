@@ -1,6 +1,7 @@
-﻿@model IEnumerable<ShopHoaTuoi.Models.EF.PHIEUNHAPHOA>
-@using PagedList.Mvc
-@{
+﻿@model PagedList.IPagedList<ShopHoaTuoi.Models.EF.PHIEUNHAPHOA>
+@using PagedList.Mvc;
+@using PagedList;
+@{ 
     ViewBag.Title = "Danh sách phiếu nhập ";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
@@ -21,32 +22,13 @@
         </li>
     </ul>
 }
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Quản lý thông tin</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">@ViewBag.Title</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
 <!-- Main content -->
 <section class="content">
-
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">@ViewBag.Title</h3>
-            
+
             <div class="card-tools">
                 <a href="/admin/phieunhaphoa/add" class="btn btn-outline-primary">Thêm mới</a>
 
@@ -57,6 +39,8 @@
             <thead>
                 <tr>
                     <th>Tên nhà cung cấp</th>
+                    <th>Ngày lập</th>
+                    <th>Tổng tiền</th>
                     <th>Tác vụ</th>
                 </tr>
             </thead>
@@ -64,27 +48,30 @@
                 @{
                     var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
                     var listtenncc = (from p in db.PHIEUNHAPHOAs
-                                  join ncc in db.NHACUNGCAPs
-                                  on p.mancc equals ncc.mancc
-                                  select new
-                                  {
-                                      p.mancc,
-                                     ncc.tenncc,
-                                     p.ngaylap,
-                                     p.mapnh
-                                  }).Distinct().ToList();
+                                      join ncc in db.NHACUNGCAPs
+                                      on p.mancc equals ncc.mancc
+                                      join ct in db.CT_PHIEUNHAPHOA
+                                      on p.mapnh equals ct.mapnh
+                                      select new
+                                      {
+                                          p.mancc,
+                                          ncc.tenncc,
+                                          p.ngaylap,
+                                          p.mapnh,
+                                          ct.tongtien
+                                      }).Distinct().ToList();
                 }
                 @if (Model != null && Model.Any())
                 {
                     foreach (var item in listtenncc)
                     {
 
-                        <tr id="trow_@item.mancc">
+                        <tr>
                             <td>@item.tenncc</td>
                             <td>@item.ngaylap</td>
+                            <td>@ShopHoaTuoi.Common.Common.FormatNumber(item.tongtien, 0)</td>
                             <td>
-                                <a href="/admin/ctpn/add/@item.mapnh" class="btn btn-sm btn-outline-info">Thêm chi tiết</a>
-                                <a href="#" data-id="@item.mapnh" class="btn btn-sm btn-outline-danger btnDelete">Xóa</a>
+                                <a href="/admin/phieunhaphoa/detail/@item.mapnh" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
                             </td>
                         </tr>
                     }
@@ -99,7 +86,12 @@
 
         </table>
 
-
+        <div class="row">
+            <div class="col-6"></div>
+            <div class="col-6" style="text-align:right">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @class = "" }))
+            </div>
+        </div>
     </div>
     <!-- /.card-body -->
     <div class="card-footer">
@@ -114,44 +106,5 @@
 </div>
 @section scripts{
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-    <script>
-        $(document).ready(function () {
-            //hiển thị form upload ảnh
-            $("#dialog").dialog({
-                autoOpen: false,
-                show: "fade",
-                hide: "fade",
-                modal: true,
-                height: '600',
-                width: '700',
-                resizable: true,
-                title: 'Quản lý ảnh sản phẩm',
-                close: function () {
-                    window.location.reload();
-                }
-            });
-            $('body').on("click", ".imgproduct", function () {
-                var proid = $(this).attr("data-id");
-                $("#dialog #myIframe").attr("src", "/admin/ProductImage/Index?id=" + proid);
-                $('#dialog').dialog('open');
-                return false;
-            });
-            $('body').on('click', '.btnDelete', function () {
-                var id = $(this).data("id");
-                var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-                if (conf === true) {
-                    $.ajax({
-                        url: '/admin/nhacungcap/delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (rs) {
-                            if (rs.success) {
-                                $('#trow_' + id).remove();
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    
 }

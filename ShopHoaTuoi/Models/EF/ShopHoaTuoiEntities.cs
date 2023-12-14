@@ -15,6 +15,7 @@ namespace ShopHoaTuoi.Models.EF
         public virtual DbSet<CT_KHO> CT_KHO { get; set; }
         public virtual DbSet<CT_PHIEUNHAPHOA> CT_PHIEUNHAPHOA { get; set; }
         public virtual DbSet<CTHD> CTHDs { get; set; }
+        public virtual DbSet<DANHGIA> DANHGIAs { get; set; }
         public virtual DbSet<HOA> HOAs { get; set; }
         public virtual DbSet<HOADON> HOADONs { get; set; }
         public virtual DbSet<KHACHHANG> KHACHHANGs { get; set; }
@@ -24,7 +25,7 @@ namespace ShopHoaTuoi.Models.EF
         public virtual DbSet<NHANVIEN> NHANVIENs { get; set; }
         public virtual DbSet<PHIEUGIAOHOA> PHIEUGIAOHOAs { get; set; }
         public virtual DbSet<PHIEUNHAPHOA> PHIEUNHAPHOAs { get; set; }
-        public virtual DbSet<taikhoan> taikhoans { get; set; }
+        public virtual DbSet<TAIKHOAN> TAIKHOANs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -43,6 +44,11 @@ namespace ShopHoaTuoi.Models.EF
             modelBuilder.Entity<HOA>()
                 .Property(e => e.giaban)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<HOA>()
+                .HasMany(e => e.DANHGIAs)
+                .WithRequired(e => e.HOA)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<KHACHHANG>()
                 .Property(e => e.sdt)
@@ -80,6 +86,12 @@ namespace ShopHoaTuoi.Models.EF
             modelBuilder.Entity<PHIEUGIAOHOA>()
                 .Property(e => e.tongtien)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<TAIKHOAN>()
+                .HasMany(e => e.DANHGIAs)
+                .WithRequired(e => e.TAIKHOAN)
+                .HasForeignKey(e => e.id_user)
+                .WillCascadeOnDelete(false);
         }
     }
 }

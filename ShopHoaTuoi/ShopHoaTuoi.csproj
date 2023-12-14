@@ -152,6 +152,7 @@
     <Compile Include="Areas\Admin\Controllers\KhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhoController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoaiHoaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NhaCungCapController.cs" />
     <Compile Include="Areas\Admin\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\PhieuNhapHoaController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\Hoa_funt.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\DanhGiaController.cs" />
     <Compile Include="Controllers\GioithieuController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Models\EF\CTHD.cs" />
     <Compile Include="Models\EF\CT_KHO.cs" />
     <Compile Include="Models\EF\CT_PHIEUNHAPHOA.cs" />
+    <Compile Include="Models\EF\DANHGIA.cs" />
     <Compile Include="Models\EF\HOA.cs" />
     <Compile Include="Models\EF\HOADON.cs" />
     <Compile Include="Models\EF\KHACHHANG.cs" />
@@ -182,12 +185,13 @@
     <Compile Include="Models\EF\PHIEUGIAOHOA.cs" />
     <Compile Include="Models\EF\PHIEUNHAPHOA.cs" />
     <Compile Include="Models\EF\ShopHoaTuoiEntities.cs" />
-    <Compile Include="Models\EF\taikhoan.cs" />
+    <Compile Include="Models\EF\TAIKHOAN.cs" />
     <Compile Include="Models\GIOHANG.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\DAO\LogionDAO.cs" />
     <Compile Include="Models\OrderModelView.cs" />
     <Compile Include="Models\PhieuNhapViewModel.cs" />
+    <Compile Include="Models\VNPAY\VnPayLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +257,7 @@
     <Content Include="Content\assets\image\navigation-close-circle-2a5c5c57ac6079c2fe70f4ee09f98938.svg" />
     <Content Include="Content\assets\image\pci-888d18899d479f26f845d5ace7be2b11.png" />
     <Content Include="Content\assets\image\phone-5890074462a7e14af36a3cf6466d6a5f.svg" />
+    <Content Include="Content\assets\image\phone.png" />
     <Content Include="Content\assets\image\SeaWhisper1.jpg" />
     <Content Include="Content\assets\image\sigle1.png" />
     <Content Include="Content\assets\image\sigle2.png" />
@@ -264,6 +269,7 @@
     <Content Include="Content\assets\image\tieude4.jpg" />
     <Content Include="Content\assets\image\ui-scan-instruction-02631b56295aa9dfc04d72a9680363b4.png" />
     <Content Include="Content\assets\image\ui-scan-instruction-2-32dcd35e61b5a9a2d0bb5c797f98e399.png" />
+    <Content Include="Content\assets\image\zalo-icon.png" />
     <Content Include="Content\assets\js\categories_custom.js" />
     <Content Include="Content\assets\js\contact_custom.js" />
     <Content Include="Content\assets\js\custom.js" />
@@ -299,6 +305,7 @@
     <Content Include="Content\assets\styles\responsive.css" />
     <Content Include="Content\assets\styles\single_responsive.css" />
     <Content Include="Content\assets\styles\single_styles.css" />
+    <Content Include="Content\assets\styles\flatsome-shop.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -3347,6 +3354,11 @@
     <Content Include="Areas\Admin\Views\PhieuNhapHoa\Add.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhapHoa\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PhieuNhapHoa\Partial_Add_CTPN.cshtml" />
+    <Content Include="Areas\Admin\Views\NhaCungCap\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\NhaCungCap\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NhaCungCap\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHoa\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\PhieuNhapHoa\Partial_CTPN.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -3376,7 +3388,6 @@
     <Content Include="Views\Menu\_MenuArrivals.cshtml" />
     <Content Include="Views\Menu\_MenuLeft.cshtml" />
     <Content Include="Views\Menu\_MenuProductCategory.cshtml" />
-    <Content Include="Views\Menu\_MenuTop.cshtml" />
     <Content Include="Views\Product\_Partial_ItemsbyCategoryId.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
@@ -3393,6 +3404,10 @@
     <Content Include="Views\Product\_Partial_ProductsHot.cshtml" />
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\DanhGia\_DanhGia.cshtml" />
+    <Content Include="Views\DanhGia\_LoadDanhGia.cshtml" />
+    <Content Include="Views\ShoppingCart\VnpayReturn.cshtml" />
+    <Content Include="Views\Menu\_MenuTop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\Role\" />

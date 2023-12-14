@@ -51,6 +51,12 @@ namespace ShopHoaTuoi
              defaults: new { controller = "Shoppingcart", action = "Checkout", alias = UrlParameter.Optional },
              namespaces: new[] { "ShopHoaTuoi.Controllers" }
          );
+            routes.MapRoute(
+          name: "vnpay_return",
+          url: "vnpay_return",
+          defaults: new { controller = "Shoppingcart", action = "VnpayReturn", alias = UrlParameter.Optional },
+          namespaces: new[] { "ShopHoaTuoi.Controllers" }
+        );
         }
     }
 }

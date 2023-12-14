@@ -6,9 +6,15 @@ namespace ShopHoaTuoi.Models.EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("taikhoan")]
-    public partial class taikhoan
+    [Table("TAIKHOAN")]
+    public partial class TAIKHOAN
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TAIKHOAN()
+        {
+            DANHGIAs = new HashSet<DANHGIA>();
+        }
+
         public int id { get; set; }
 
         [Required]
@@ -21,5 +27,14 @@ namespace ShopHoaTuoi.Models.EF
 
         [StringLength(50)]
         public string role { get; set; }
+
+        [StringLength(50)]
+        public string hoten { get; set; }
+
+        [StringLength(200)]
+        public string email { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
     }
 }
