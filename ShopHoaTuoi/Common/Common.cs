@@ -85,5 +85,48 @@ namespace ShopHoaTuoi.Common
                        || value is double
                        || value is decimal;
         }
+        public static string HtmlRate(int rate)
+        {
+            var str = "";
+            switch(rate)
+            {
+                case 1:
+                    str = @"    <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>";
+                    break;
+                case 2:
+                    str = @"    <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>";
+                    break;
+                case 3:
+                    str = @"    <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>";
+                    break;
+                case 4:
+                    str = @"    <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star-o' aria-hidden='true'></i></li>";
+                    break;
+                case 5:
+                    str = @"    <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>
+                                <li><i class='fa fa-star' aria-hidden='true'></i></li>";
+                    break;
+            }
+            return str;
+        }
     }
 }

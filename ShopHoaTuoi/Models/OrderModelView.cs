@@ -17,5 +17,6 @@ namespace ShopHoaTuoi.Models
         public string diachi { get; set; }
         public string email { get; set; }
         public int thanhtoan { get; set; }
+        public int TypePaymentVN { get; set; }
     }
 }

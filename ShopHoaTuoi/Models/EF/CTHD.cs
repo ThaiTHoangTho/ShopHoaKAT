@@ -18,7 +18,7 @@ namespace ShopHoaTuoi.Models.EF
         public int? soluong { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? tongtien { get; set; }
+        public decimal tongtien { get; set; }
 
         public virtual HOA HOA { get; set; }
 

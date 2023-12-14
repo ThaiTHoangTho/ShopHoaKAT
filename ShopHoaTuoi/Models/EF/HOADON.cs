@@ -25,6 +25,7 @@ namespace ShopHoaTuoi.Models.EF
         public string madonhang { get; set; }
 
         public int? thanhtoan { get; set; }
+        public int? tinhtrang { get; set; }
 
         public int? manv { get; set; }
 

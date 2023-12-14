@@ -15,15 +15,10 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
         public ActionResult Index(int? page)
         {
             var query = from o in db.HOADONs
-                        join od in db.CTHDs
-                        on o.mahd equals od.mahd
-                        join p in db.KHACHHANGs
-                        on o.makh equals p.makh
                         select new
                         {
                             ngaylap = o.ngaylap,
-                            tenkh = p.tenkh,
-                            sdt = p.sdt
+                          
                         };
             var items = db.HOADONs.OrderByDescending(x => x.ngaylap).ToList();
             if (items == null)

@@ -36,5 +36,10 @@ namespace ShopHoaTuoi.Controllers
             var items = db.LOAIHOAs;
             return PartialView("_MenuLeft", items);
         }
+        public ActionResult MenuTop()
+        {
+            return PartialView("_MenuTop");
+        }
+
     }
 }

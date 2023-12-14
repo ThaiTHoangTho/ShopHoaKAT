@@ -1,6 +1,6 @@
 ﻿
 @model IEnumerable<ShopHoaTuoi.Models.EF.LOAIHOA>
-
+<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
 @if (Model != null && Model.Any())
 {
     <ul class="sidebar_categories">
@@ -9,7 +9,6 @@
             if (ViewBag.CateId == item.maloai)
 
             {
-                <li><a href="/product">Danh sách hoa</a></li>
                 <li class="active"><a href="/danh-muc-san-pham/@(item.maloai)"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>@item.tenloai</a></li>
             }
             else
@@ -19,12 +18,6 @@
             }
 
         }
-        @*<li><a href="#">Men</a></li>
-        <li class="active"><a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>Women</a></li>
-        <li><a href="#">Accessories</a></li>
-        <li><a href="#">New Arrivals</a></li>
-        <li><a href="#">Collection</a></li>
-        <li><a href="#">Shop</a></li>*@
     </ul>
 }
 

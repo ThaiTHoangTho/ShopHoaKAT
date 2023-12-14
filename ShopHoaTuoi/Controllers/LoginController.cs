@@ -26,7 +26,7 @@ namespace ShopHoaTuoi.Controllers
                 var result = dao.Login(model.tendangnhap, model.matkhau);
                 if (result == 1)
                 {
-                    var usercheck=db.taikhoans.SingleOrDefault(x=>x.username.Equals(model.tendangnhap) && x.password.Equals(model.matkhau));
+                    var usercheck=db.TAIKHOANs.SingleOrDefault(x=>x.username.Equals(model.tendangnhap) && x.password.Equals(model.matkhau));
                     Session["taikhoan"] = usercheck;
                     var checkrole = dao.checkRole(model.tendangnhap);
                     switch(checkrole)
@@ -52,7 +52,7 @@ namespace ShopHoaTuoi.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Register(taikhoan taikhoan)
+        public ActionResult Register(TAIKHOAN taikhoan)
         {
             if (ModelState.IsValid)
             {
@@ -60,8 +60,8 @@ namespace ShopHoaTuoi.Controllers
                 var result = dao.Register(taikhoan.username);
                 if (result == 1)
                 {
-                    taikhoan.role = "Customer";
-                    db.taikhoans.Add(taikhoan);
+                    taikhoan.role = "customer";
+                    db.TAIKHOANs.Add(taikhoan);
                     db.SaveChanges();
                     return RedirectToAction("Index", "Login");
                 }

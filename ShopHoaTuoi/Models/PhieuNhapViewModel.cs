@@ -11,23 +11,13 @@ namespace ShopHoaTuoi.Models
 {
     public class PhieuNhapViewModel
     {
-        [Key]
-        public int id { get; set; }
-        [Required(ErrorMessage = "Vui lòng chọn tên nhà cung cấp")]
-        public int mancc { get; set; }
-        [Phone]
-        [Required(ErrorMessage = "Vui lòng chọn mã hoa")]
+            public int mancc { get; set; }
+            public List<CT_PNViewModel> cT_PNViewModels { get; set; }
+    }
+    public class CT_PNViewModel
+    {
         public int mahoa { get; set; }
-        [Required(ErrorMessage = "Vui lòng nhập số lượng")]
         public int soluong { get; set; }
         public decimal gianhap { get; set; }
-        public DateTime ngaylap { get; set; }
-
-        public virtual HOA HOA { get; set; }
-
-        public IEnumerable<NHACUNGCAP> NHACUNGCAP { get; set; }
-       //public virtual NHACUNGCAP NHACUNGCAP { get; set; }
-      
-        public object CT_PHIEUNHAPHOA  { get; internal set; }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ShopHoaTuoi.Models.EF.CT_PHIEUNHAPHOA>
+@using ShopHoaTuoi.Common
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá nhập</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @{
+                var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
+                var list = from a in db.HOAs
+                           join ct in db.CT_PHIEUNHAPHOA
+                           on a.mahoa equals ct.mahoa
+                           select new
+                           {
+                               a.tenhoa,
+                               ct.gianhap,
+                               ct.soluong,
+                               ct.tongtien,
+                               ct.mapnh
+                           };
+                foreach (var item in list)
+                {
+                    foreach (var m in Model)
+                    {
+                        if (m.mapnh == item.mapnh)
+                        {
+                        <tr>
+                            <td>@i</td>
+                            <td>@item.tenhoa</td>
+                            <td>@item.gianhap</td>
+                            <td>@item.soluong</td>
+                            <td>@Common.FormatNumber(item.tongtien, 0)</td>
+                        </tr>
+                                i++;
+                            }
+                        }
+
+                    }
+                }
+        </tbody>
+    </table>
+}
+
+
+

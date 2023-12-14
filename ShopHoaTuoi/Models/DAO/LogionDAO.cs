@@ -9,18 +9,18 @@ namespace ShopHoaTuoi.Models
     public class LogionDAO
     {
         private ShopHoaTuoiEntities db = new ShopHoaTuoiEntities();
-        public taikhoan AddTK(taikhoan t)
+        public TAIKHOAN AddTK(TAIKHOAN t)
         {
-            db.taikhoans.Add(t);
+            db.TAIKHOANs.Add(t);
             db.SaveChanges();
             return t;
         }
-        public taikhoan getItems(string tendangnhap)
+        public TAIKHOAN getItems(string tendangnhap)
         {
-            return db.taikhoans.FirstOrDefault(x => x.username == tendangnhap);
+            return db.TAIKHOANs.FirstOrDefault(x => x.username == tendangnhap);
         }
 
-        public List<taikhoan> getList() { return db.taikhoans.ToList(); }
+        public List<TAIKHOAN> getList() { return db.TAIKHOANs.ToList(); }
       
    
         /*   public NHANVIEN Update(NHANVIEN nv)
@@ -37,7 +37,7 @@ namespace ShopHoaTuoi.Models
            }*/
         public int Login(string tendangnhap, string password)
         {
-            var user = db.taikhoans.FirstOrDefault(x => x.username == tendangnhap);
+            var user = db.TAIKHOANs.FirstOrDefault(x => x.username == tendangnhap);
             if (user == null)
             {
                 return -2;//username không tồn tại
@@ -56,7 +56,7 @@ namespace ShopHoaTuoi.Models
         }
         public int Register(string tendangnhap)
         {
-            var user = db.taikhoans.FirstOrDefault(x => x.username == tendangnhap);
+            var user = db.TAIKHOANs.FirstOrDefault(x => x.username == tendangnhap);
             if (user == null)
             {
                 return 1;//không có username tồn tại
@@ -68,7 +68,7 @@ namespace ShopHoaTuoi.Models
         }
         public int checkRole(string username)
         {
-            var tk = db.taikhoans.FirstOrDefault(x => x.username == username);
+            var tk = db.TAIKHOANs.FirstOrDefault(x => x.username == username);
             if (tk.role == "admin")
             {
                 return 1;

@@ -15,6 +15,7 @@ namespace ShopHoaTuoi.Models.EF
             CT_KHO = new HashSet<CT_KHO>();
             CT_PHIEUNHAPHOA = new HashSet<CT_PHIEUNHAPHOA>();
             CTHDs = new HashSet<CTHD>();
+            DANHGIAs = new HashSet<DANHGIA>();
         }
 
         [Key]
@@ -46,6 +47,9 @@ namespace ShopHoaTuoi.Models.EF
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTHD> CTHDs { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
 
         public virtual LOAIHOA LOAIHOA { get; set; }
     }
