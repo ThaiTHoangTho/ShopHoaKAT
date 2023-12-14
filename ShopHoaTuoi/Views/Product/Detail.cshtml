@@ -4,7 +4,7 @@
 }
 <link href="~/Content/assets/styles/single_responsive.css" rel="stylesheet" />
 <link href="~/Content/assets/styles/single_styles.css" rel="stylesheet" />
-<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
 @if (Model != null)
 {
     <div class="container fill_height">
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-lg-7">
                     @* @if (Model.ProductImage != null && Model.ProductImage.Any())
-                        {*@
+                {*@
                     <div class="single_product_pics">
                         <div class="row">
 
@@ -52,21 +52,30 @@
                         <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
                             <span class="ti-truck"></span><span>Miễn phí giao hàng trong phạm vi 5km</span>
                         </div>
-                        <ul class="star_rating">
-                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                            <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                            <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                        </ul>
-                        @* <div class="product_color">
-                                <span>Select Color:</span>
-                                <ul>
-                                    <li style="background: #e54e5d"></li>
-                                    <li style="background: #252525"></li>
-                                    <li style="background: #60b3f3"></li>
+
+                        @{
+                            var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
+                            var listhd = (from h in db.HOAs
+                                          join d in db.DANHGIAs
+                                          on h.mahoa equals d.mahoa
+                                          select new
+                                          {
+                                              d.rating,
+                                              h.mahoa
+                                          }).Distinct().ToList();
+                        }
+
+                        @foreach (var iteam in listhd)
+                        {
+
+                            if (Model.mahoa == iteam.mahoa)
+
+                            {
+                                <ul class="star_rating">
+                                    @Html.Raw(ShopHoaTuoi.Common.Common.HtmlRate(iteam.rating))
                                 </ul>
-                            </div>*@
+                            }
+                        }
                         <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                             <span>Số lượng:</span>
                             <div class="quantity_selector">
@@ -80,64 +89,63 @@
                     </div>
                 </div>
             </div>
+            <div class="tabs_section_container">
 
-        </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="tabs_container">
+                                <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                                    <li class="tab active" data-active-tab="tab_1"><span>Mô tả</span></li>
+                                    <li class="tab" data-active-tab="tab_3"><span>Đánh giá</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
 
-        <div class="tabs_section_container">
+                            <!-- Tab Description -->
 
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="tabs_container">
-                            <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                                <li class="tab active" data-active-tab="tab_1"><span>Mô tả</span></li>
-                                <li class="tab" data-active-tab="tab_3"><span>Đánh giá</span></li>
-                            </ul>
+                            <div id="tab_1" class="tab_container active">
+                                <div class="row">
+
+                                </div>
+                            </div>
+                            <!-- Tab Reviews -->
+
+                            <div id="tab_3" class="tab_container">
+                                <div class="row">
+
+                                    <!-- User Reviews -->
+
+                                    <div class="col-lg-6 reviews_col">
+                                        @Html.Action("_LoadDanhGia", "DanhGia", new { mahoa = Model.mahoa })
+                                    </div>
+
+                                    <!-- Add Review -->
+
+                                    <div class="col-lg-6 add_review_col">
+
+                                        @Html.Action("_DanhGia", "DanhGia", new { mahoa = Model.mahoa })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
 
-                        <!-- Tab Description -->
-
-                        <div id="tab_1" class="tab_container active">
-                            <div class="row">
-
-                            </div>
-                        </div>
-                        <!-- Tab Reviews -->
-
-                        <div id="tab_3" class="tab_container">
-                            <div class="row">
-
-                                <!-- User Reviews -->
-
-                                <div class="col-lg-6 reviews_col">
-                                    @Html.Action("_LoadDanhGia", "DanhGia", new { mahoa = Model.mahoa })
-                                </div>
-
-                                <!-- Add Review -->
-
-                                <div class="col-lg-6 add_review_col">
-
-                                    @Html.Action("_DanhGia", "DanhGia", new { mahoa = Model.mahoa })
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
             </div>
-
         </div>
-        </div>
+                </div>
+        
 
-        }
+}
 
 
-        @section scripts{
-            <script src="~/Content/assets/js/single_custom.js"></script>
-        }
+@section scripts{
+    <script src="~/Content/assets/js/single_custom.js"></script>
+}

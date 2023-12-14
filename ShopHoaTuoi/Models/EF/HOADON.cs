@@ -25,11 +25,12 @@ namespace ShopHoaTuoi.Models.EF
         public string madonhang { get; set; }
 
         public int? thanhtoan { get; set; }
-        public int? tinhtrang { get; set; }
 
         public int? manv { get; set; }
 
         public int? makh { get; set; }
+
+        public int? tinhtrang { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CTHD> CTHDs { get; set; }

@@ -23,6 +23,7 @@ namespace ShopHoaTuoi.Models.EF
         public decimal? tongtien { get; set; }
 
         public virtual HOA HOA { get; set; }
-        public PHIEUNHAPHOA PHIEUNHAPHOA { get;  set; }
+
+        public virtual PHIEUNHAPHOA PHIEUNHAPHOA { get; set; }
     }
 }

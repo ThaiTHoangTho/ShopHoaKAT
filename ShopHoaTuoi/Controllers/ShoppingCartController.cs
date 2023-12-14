@@ -66,6 +66,7 @@ namespace ShopHoaTuoi.Controllers
                             db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }    
+
                         //Thanh toan thanh cong
                         ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                         //log.InfoFormat("Thanh toan thanh cong, OrderId={0}, VNPAY TranId={1}", orderId, vnpayTranId);
@@ -76,11 +77,18 @@ namespace ShopHoaTuoi.Controllers
                         ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý.Mã lỗi: " + vnp_ResponseCode;
                         //log.InfoFormat("Thanh toan loi, OrderId={0}, VNPAY TranId={1},ResponseCode={2}", orderId, vnpayTranId, vnp_ResponseCode);
                     }
+
                     /*displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
                     displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
                     displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();*/
                     ViewBag.Success = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
                    // displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;
+
+                   /* displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
+                    displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
+                    displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();
+                    displayAmount.InnerText = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
+                    displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;*/
                 }
             }
                return View();
@@ -114,11 +122,20 @@ namespace ShopHoaTuoi.Controllers
                 GIOHANG cart = (GIOHANG)Session["Cart"];
                 if (cart != null)
                 {
-                    kh.tenkh = orderView.tenkh;
-                    kh.sdt = orderView.sdt;
-                    kh.diachi = orderView.diachi;
-                    kh.email = orderView.email;
-                    db.KHACHHANGs.Add(kh);
+                    var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.TAIKHOAN;
+                    if (user == null)
+                    {
+                        kh.tenkh = orderView.tenkh;
+                        kh.sdt = orderView.sdt;
+                        kh.diachi = orderView.diachi;
+                        kh.email = orderView.email;
+                        db.KHACHHANGs.Add(kh);
+                        order.makh = kh.makh;
+                    }
+                    else
+                    {
+                        order.makh = user.makh;
+                    }
                     cart.Items.ForEach(x => order.CTHDs.Add(new CTHD
                     {
 
@@ -128,7 +145,7 @@ namespace ShopHoaTuoi.Controllers
 
                     }));
                     //order.= cart.Items.Sum(x => (x.giaban * x.soluong));
-                    order.makh = kh.makh;
+                    //order.makh = kh.makh;
                     order.tinhtrang = 1;//1 chưa 2 rồi
                     order.ngaylap = DateTime.Now;
                     order.thanhtoan = orderView.thanhtoan;
@@ -273,8 +290,9 @@ namespace ShopHoaTuoi.Controllers
 
             //Build URL for VNPAY
             VnPayLibrary vnpay = new VnPayLibrary();
-            var detail =db.CTHDs.Where(x => x.mahd == order.mahd);
-            var Price = (long)detail.Sum(x=>x.tongtien) * 100;
+
+            var detail = db.CTHDs.FirstOrDefault(x => x.mahd == order.mahd);
+            var Price = (long)detail.tongtien * 100;
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);

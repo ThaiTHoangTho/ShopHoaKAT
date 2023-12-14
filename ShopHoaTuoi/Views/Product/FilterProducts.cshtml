@@ -2,12 +2,11 @@
 @using ShopHoaTuoi.Common
 @{
     ViewBag.Title = "Danh sách sản phẩm";
-
 }
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
 <link href="~/Content/clients/dist/css/adminlte.css" rel="stylesheet" />
-<div class="container product_section_container">
+<div class="container fill_height">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -25,7 +24,7 @@
             <div class="sidebar">
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5>Danh sách loại hoa</h5>
+                        <h5><a href="/product">Danh sách loại hoa</a></h5>
                     </div>
                     @Html.Action("MenuLeft", "Menu")
                 </div>
@@ -33,41 +32,30 @@
                 <!-- Price Range Filtering -->
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5>Lọc theo giá</h5>
+                        <div>
+                            <label>200.000 - 500.000:</label>
+                            <input type="checkbox" id="chkRange1" />
+                        </div>
+                        <div>
+                            <label>500.000 - 1.000.000:</label>
+                            <input type="checkbox" id="chkRange2" />
+                        </div>
+                        <div>
+                            <input type="button" value="Apply Filters" onclick="applyFilters()" />
+                        </div>
+                        <hr />
+                       
                     </div>
-                    <p>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                    </p>
-                    <div id="slider-range"></div>
-                    <div class="filter_button"><span>Lọc</span></div>
                 </div>
 
                 <!-- Sizes -->
                 <div class="sidebar_section">
-                
+                   
                 </div>
 
                 <!-- Color -->
                 <div class="sidebar_section">
-                    @*<div class="sidebar_title">
-                            <h5>Color</h5>
-                        </div>
-                        <ul class="checkboxes">
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Black</span></li>
-                            <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>Pink</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                        </ul>
-                        <div class="show_more">
-                            <span><span>+</span>Show More</span>
-                        </div>*@
+                  
                 </div>
 
             </div>
@@ -87,12 +75,12 @@
                             <div class="product_sorting_container product_sorting_container_top">
                                 <ul class="product_sorting">
                                     <li>
-                                        <span class="type_sorting_text">Default Sorting</span>
+                                        <span class="type_sorting_text">Hiển thị</span>
                                         <i class="fa fa-angle-down"></i>
                                         <ul class="sorting_type">
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Default Sorting</span></li>
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Price</span></li>
-                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Product Name</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>Hiển thị</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "price" }'><span>Giá</span></li>
+                                            <li class="type_sorting_btn" data-isotope-option='{ "sortBy": "name" }'><span>Tên hoa</span></li>
                                         </ul>
                                     </li>
                                     <li>
@@ -118,46 +106,34 @@
                                     <div class="page_total"><span>of</span> 3</div>
                                     <div id="next_page" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
                                 </div>
-                                @* @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @class = "form-inline" }))
-                                    {
-                                        <div class="input-group">
-                                            <input type="search" class="form-control form-control-lg" placeholder="Nhập từ cần tìm...">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-lg btn-default">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    }*@
 
                             </div>
 
                             <!-- Product Grid -->
 
-                            <div class="product-grid">
+                            <div class="product-grid" id="filteredProductContainer">
 
                                 <!-- Product 1 -->
                                 @if (Model != null && Model.Any())
                                 {
                                     foreach (var item in Model)
                                     {
+
                                         <div class="product-item @item.LOAIHOA.maloai">
                                             <div class="product discount product_filter">
                                                 <div class="product_image">
                                                     <img src="@item.anh" alt="@item.tenhoa">
                                                 </div>
-                                                <div class="favorite favorite_left"></div>
-
                                                 <div class="product_info">
                                                     <h6 class="product_name"><a href="/product/detail/@item.mahoa">@item.tenhoa</a></h6>
-
-
                                                     <div class="product_price">@Common.FormatNumber(item.giaban, 0)</div>
 
                                                 </div>
                                             </div>
-                                            <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.mahoa">add to cart</a></div>
+                                            <div class="red_button add_to_cart_button"><a href="#" class="btnAddtocart" data-id="@item.mahoa">add to cart</a></div>
                                         </div>
+
+
 
                                     }
                                 }
@@ -180,8 +156,8 @@
                                     </li>
                                 </ul>
                                 <span class="showing_results">Showing 1–3 of 12 results</span>
-                                @* <div class="pages d-flex flex-row align-items-center">
-                                        <div class="page_current">
+                                <div class="pages d-flex flex-row align-items-center">
+                                    @*  <div class="page_current">
                                             <span>1</span>
                                             <ul class="page_selection">
                                                 <li><a href="#">1</a></li>
@@ -190,11 +166,9 @@
                                             </ul>
                                         </div>
                                         <div class="page_total"><span>of</span> 3</div>
-                                        <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
-                                    </div>*@
-
+                                        <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>*@
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -205,4 +179,32 @@
 @section scripts{
     <script src="~/Content/assets/js/categories_custom.js"></script>
     <script src="~/Scripts/jsShopping.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript">
+        function applyFilters() {
+            var selectedRanges = [];
+
+            if ($("#chkRange1").is(":checked")) {
+                selectedRanges.push({ min: 200000, max: 500000 });
+            }
+
+            if ($("#chkRange2").is(":checked")) {
+                selectedRanges.push({ min: 500000, max: 1000000 });
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FilterProducts", "Product")",
+                data: JSON.stringify({ selectedRanges: selectedRanges }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "html",
+                success: function (response) {
+                    $("#productContainer").html(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
 }

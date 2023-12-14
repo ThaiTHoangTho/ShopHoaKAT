@@ -28,13 +28,11 @@ namespace ShopHoaTuoi.Models.EF
         [StringLength(50)]
         public string role { get; set; }
 
-        [StringLength(50)]
-        public string hoten { get; set; }
-
-        [StringLength(200)]
-        public string email { get; set; }
+        public int? makh { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DANHGIA> DANHGIAs { get; set; }
+
+        public virtual KHACHHANG KHACHHANG { get; set; }
     }
 }

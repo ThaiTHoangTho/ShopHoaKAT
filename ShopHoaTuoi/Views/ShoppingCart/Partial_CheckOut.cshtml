@@ -32,22 +32,45 @@
     </script>
     @Html.AntiForgeryToken()
     <h3>Thông tin khách hàng</h3>
-    <div class="form-group">
-        <label>Họ tên khách hàng</label>
-        <input type="text" name="tenkh" required class="form-control" @*autocomplete="off"*@ />
-    </div>
-    <div class="form-group">
-        <label>Số điện thoại</label>
-        <input type="text" name="sdt" class="form-control" @*autocomplete="off"*@ />
-    </div>
-    <div class="form-group">
-        <label>Địa chỉ</label>
-        <input type="text" name="diachi" class="form-control" @*autocomplete="off"*@ />
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text" name="email" class="form-control" @*autocomplete="off"*@ />
-    </div>
+    var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.TAIKHOAN;
+    if (user == null)
+    {
+        <div class="form-group">
+            <label>Họ tên khách hàng</label>
+            <input type="text" name="tenkh" required class="form-control" @*autocomplete="off"*@ />
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="sdt" class="form-control" @*autocomplete="off"*@ />
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="diachi" class="form-control" @*autocomplete="off"*@ />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control" @*autocomplete="off"*@ />
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <label>Họ tên khách hàng</label>
+            <input type="text" name="tenkh" required class="form-control" value="@user.KHACHHANG.tenkh" />
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="sdt" class="form-control" value="@user.KHACHHANG.sdt"/>
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="diachi" class="form-control" value="@user.KHACHHANG.diachi"/>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control"value="@user.KHACHHANG.email"/>
+        </div>
+    }
     <div class="form-group">
         <label>Hình thức thanh toán</label>
         <select class="form-control" name="thanhtoan" id="drTypePayment">
@@ -72,6 +95,7 @@
     <div class="form-group">
         <button type="submit" class="btn btn-block btn-outline-success" id="btnCheckOut">Đặt hàng</button>
     </div>
+
 }
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")

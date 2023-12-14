@@ -18,7 +18,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
-    <link href="~/Content/assets/styles/flatsome-shop.css" rel="stylesheet" />
+    <link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+    <link href="~/Content/assets/plugins/button-contact-vr/css/style.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&display=swap" rel="stylesheet">
@@ -69,12 +70,14 @@
                                     {
                                         <li class="account" style="background-color: #E1CFBB ">
                                             <a href="#">
-                                                @user.username
+                                                @user.KHACHHANG.tenkh
                                                 <i class="fa fa-angle-down"></i>
                                             </a>
                                             <ul class="account_selection">
                                                 <li><a href="/login/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
-                                                <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>
+                                                @*
+                                                    <li><a href="/DonDatHang/Details"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>*@
+                                                @Html.ActionLink("Xem chi tiết đơn hàng", "Details", "DonDatHang", new { customerId = user.makh }, null)
                                             </ul>
                                         </li>
                                     }
@@ -101,6 +104,7 @@
         </header>
 
         @RenderBody()
+
 
         <!-- Footer -->
 
@@ -130,7 +134,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tg_contact_fixed_2021">
+               @* <div class="tg_contact_fixed_2021">
                     <ul>
                         <li>
                             <a href="https://www.facebook.com/highkat" data-toggle="tooltip" data-html="true" target="_blank" data-placement="left" title="
@@ -149,9 +153,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </footer>
-
     </div>
     <div id="button-contact-vr" class="">
         <div id="gom-all-in-one">
@@ -162,55 +165,46 @@
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
                         <a target="_blank" href="https://zalo.me/0937051919">
-                            <img alt="Zalo" src="~/Content/assets/image/zalo-icon.png", data-ll-status="loaded" class="entered lazyloaded"><noscript>
-    <img alt="Zalo" src="~/Content/assets/image/zalo-icon.png" />" /></noscript>
+                            <img alt="Zalo" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/zalo.png">
                         </a>
                     </div>
                 </div>
             </div>
             <!-- end zalo -->
             <!-- Phone -->
+            <div id="zalo-vr" class="button-contact">
+                <div class="phone-vr">
+                    <div class="phone-vr-circle-fill"></div>
+                    <div class="phone-vr-img-circle">
+                        <a target="_blank" href="https://www.facebook.com/highkat">
+                            <img src="~/Content/assets/plugins/button-contact-vr/img/icons8-messenger-48.png" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- end phone 2 -->
+            <!-- Phone -->
             <div id="phone-vr" class="button-contact">
                 <div class="phone-vr">
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
-                        <a href="tel:0905993626">
-                            <img alt="Phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-lazy-src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-ll-status="loaded" class="entered lazyloaded"><noscript><img alt="Phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" /></noscript>
+                        <a href="tel:0394799954">
+                            <img alt="Phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png">
                         </a>
                     </div>
                 </div>
             </div>
             <div class="phone-bar phone-bar-n">
-                <a href="tel:0905993626">
-                    <span class="text-phone">0905 993 626</span>
+                <a href="tel:0394799954">
+                    <span class="text-phone">0394799954-Tho</span>
                 </a>
             </div>
             <!-- end phone -->
-            <!-- Phone -->
-            <div id="phone-vr2" class="button-contact">
-                <div class="phone-vr">
-                    <div class="phone-vr-circle-fill"></div>
-                    <div class="phone-vr-img-circle">
-                        <a href="tel:0938434660">
-                            <img alt="phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-lazy-src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" data-ll-status="loaded" class="entered lazyloaded"><noscript><img alt="phone" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/phone.png" /></noscript>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="phone-bar phone-bar2 phone-bar-n">
-                <a href="tel:0938434660">
-                    <span class="text-phone">0938 434 660</span>
-                </a>
-            </div>
-            <!-- end phone 2 -->
-
         </div><!-- end v3 class gom-all-in-one -->
 
 
     </div>
-    @* @Scripts.Render("~/bundles/jquery")*@
-
-
+    
     <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
     <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
     <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>

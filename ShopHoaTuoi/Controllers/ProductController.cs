@@ -1,7 +1,9 @@
 ﻿using PagedList;
+using ShopHoaTuoi.Models;
 using ShopHoaTuoi.Models.EF;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -66,7 +68,17 @@ namespace ShopHoaTuoi.Controllers
             var products = db.HOAs.Where(x => x.tenhoa.Contains(keyword)).ToList();
 
             // Trả về danh sách sản phẩm
-            return View(products);
+            return View("Index", products);
         }
+        [HttpPost]
+        public ActionResult FilterProducts(List<PriceRange> selectedRanges)
+        {
+            List<HOA> filteredProducts = db.HOAs.ToList()
+                .Where(p => selectedRanges.Any(r => p.giaban >= r.Min && p.giaban <= r.Max))
+                .ToList();
+            return View("Index", filteredProducts);
+        }
+      
+
     }
 }
