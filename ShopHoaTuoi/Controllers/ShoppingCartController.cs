@@ -57,6 +57,7 @@ namespace ShopHoaTuoi.Controllers
                 {
                     if (vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
                     {
+<<<<<<< HEAD
                         var item=db.HOADONs.FirstOrDefault(x=>x.madonhang==madonhang);
                         if(item!=null)
 
@@ -66,6 +67,8 @@ namespace ShopHoaTuoi.Controllers
                             db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }    
+=======
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
                         //Thanh toan thanh cong
                         ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                         //log.InfoFormat("Thanh toan thanh cong, OrderId={0}, VNPAY TranId={1}", orderId, vnpayTranId);
@@ -76,11 +79,19 @@ namespace ShopHoaTuoi.Controllers
                         ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý.Mã lỗi: " + vnp_ResponseCode;
                         //log.InfoFormat("Thanh toan loi, OrderId={0}, VNPAY TranId={1},ResponseCode={2}", orderId, vnpayTranId, vnp_ResponseCode);
                     }
+<<<<<<< HEAD
                     /*displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
                     displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
                     displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();*/
                     ViewBag.Success = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
                    // displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;
+=======
+                   /* displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
+                    displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
+                    displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();
+                    displayAmount.InnerText = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
+                    displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;*/
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
                 }
             }
                return View();
@@ -273,8 +284,13 @@ namespace ShopHoaTuoi.Controllers
 
             //Build URL for VNPAY
             VnPayLibrary vnpay = new VnPayLibrary();
+<<<<<<< HEAD
             var detail =db.CTHDs.Where(x => x.mahd == order.mahd);
             var Price = (long)detail.Sum(x=>x.tongtien) * 100;
+=======
+            var detail = db.CTHDs.FirstOrDefault(x => x.mahd == order.mahd);
+            var Price = (long)detail.tongtien * 100;
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);

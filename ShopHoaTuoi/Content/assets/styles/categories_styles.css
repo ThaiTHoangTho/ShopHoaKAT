@@ -1295,13 +1295,21 @@ section
 	margin-top: 57px;
 }
 .product-item {
+<<<<<<< HEAD
 	width: 20%;
 	height: 350px;
+=======
+	width: 25%;
+	height: 400px;
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
 	cursor: pointer;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
 	padding: 10px;
 	margin-top:10px;
+<<<<<<< HEAD
 	background-color:cornsilk;
+=======
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
 }
 .product-item::after
 {

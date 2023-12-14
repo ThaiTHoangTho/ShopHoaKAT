@@ -1048,6 +1048,7 @@ section
 }
 .product-item {
 	width: 20%;
+<<<<<<< HEAD
 	height: 350px;
 	cursor: pointer;
 	padding: 10px;
@@ -1055,6 +1056,13 @@ section
 	margin-top: 10px;
 	background-color: #f5eee6; /* Màu nền */
 	border-radius: 8px;
+=======
+	height: 400px;
+	cursor: pointer;
+	padding:10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+	margin-top:10px;
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
 }
 	.product-item::before {
 		content: "";
@@ -1087,6 +1095,11 @@ section
 }
 	.product-item:hover::after {
 		box-shadow: 0 25px 29px rgba(63, 78, 100, 0.15);
+<<<<<<< HEAD
+=======
+	
+		
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
 	}
 .product {
 	width: 100%;
@@ -1097,7 +1110,11 @@ section
 .product_image {
 	overflow: hidden;
 	width: 100%;
+<<<<<<< HEAD
 	height: 100%;
+=======
+
+>>>>>>> d7d0094eab9840f0c7b4c0dfbebcb11106d5e3e7
 }
 	.product_image img {
 		object-fit: cover;
