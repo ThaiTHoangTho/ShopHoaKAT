@@ -29,7 +29,9 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
         }
         public ActionResult Add()
         {
-            ViewBag.LoaiHoa = new SelectList(db.LOAIHOAs.ToList(), "maloai", "tenloai");
+            // ViewBag.LoaiHoa = new SelectList(db.LOAIHOAs.ToList(), "maloai", "tenloai");
+           // ViewBag.NCC = db.NHACUNGCAPs.ToList();
+            ViewBag.LoaiHoa = db.LOAIHOAs.ToList();
             return View();
         }
 
@@ -39,12 +41,13 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.LoaiHoa = new SelectList(db.LOAIHOAs.ToList(), "maloai", "tenloai");
+               // ViewBag.LoaiHoa = new SelectList(db.LOAIHOAs.ToList(), "maloai", "tenloai");
                 db.HOAs.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
 
             }
+            ViewBag.LoaiHoa = db.LOAIHOAs.ToList();
             return View(model);
 
         }

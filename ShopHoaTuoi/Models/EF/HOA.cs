@@ -34,7 +34,7 @@ namespace ShopHoaTuoi.Models.EF
         [Column(TypeName = "money")]
         public decimal giaban { get; set; }
 
-        [StringLength(500)]
+        [StringLength(1500)]
         public string mota { get; set; }
 
         public bool banchay { get; set; }

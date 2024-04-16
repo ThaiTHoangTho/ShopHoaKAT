@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ShopHoaTuoi.Models.EF.CT_KHO>
+@using ShopHoaTuoi.Common
+@if (Model != null && Model.Any())
+{
+    int i = 1;
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên hoa</th>
+                <th>Số lượng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
+                var list = (from ct in db.CT_KHO
+                            join h in db.HOAs
+                            on ct.mahoa equals h.mahoa
+                            select new
+                            {
+                                H = h,
+                                ChiTiet = ct
+                            })
+                        .GroupBy(result => new
+                        {
+                            result.H.tenhoa,
+                            result.ChiTiet.makho,
+                            result.ChiTiet.soluong
+                        })
+                        .Select(group => new
+                        {
+                            
+                            tenhoa = group.Key.tenhoa,
+                            makho = group.Key.makho,
+                            soluong = group.Key.soluong
+                        });
+            }
+
+            @foreach (var item in list)
+            {
+
+                if (Model.First().makho == item.makho)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.tenhoa</td>
+                        <td>@item.soluong</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+

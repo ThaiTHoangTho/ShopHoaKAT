@@ -17,34 +17,44 @@
         <tbody>
             @{
                 var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
-                var list = from a in db.HOAs
-                           join ct in db.CT_PHIEUNHAPHOA
-                           on a.mahoa equals ct.mahoa
-                           select new
-                           {
-                               a.tenhoa,
-                               ct.gianhap,
-                               ct.soluong,
-                               ct.tongtien,
-                               ct.mapnh
-                           };
-                foreach (var item in list)
-                {
-                    foreach (var m in Model)
-                    {
-                        if (m.mapnh == item.mapnh)
+                var list = (from ct in db.CT_PHIEUNHAPHOA
+                                  join h in db.HOAs
+                                  on ct.mahoa equals h.mahoa
+                                  select new
+                                  {
+                                      H = h,
+                                      ChiTiet = ct
+                                  })
+                        .GroupBy(result => new
                         {
+                            result.H.tenhoa,
+                            result.ChiTiet.mapnh,
+                            result.ChiTiet.soluong,
+                            result.ChiTiet.gianhap
+                        })
+                        .Select(group => new
+                        {
+                            TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                            tenhoa = group.Key.tenhoa,
+                            mapnh = group.Key.mapnh,
+                            soluong=group.Key.soluong,
+                            gianhap=group.Key.gianhap
+                        });
+            }
+
+            @foreach (var item in list)
+            {
+              
+                    if (Model.First().mapnh == item.mapnh)
+                    {
                         <tr>
                             <td>@i</td>
                             <td>@item.tenhoa</td>
-                            <td>@item.gianhap</td>
+                            <td>@ShopHoaTuoi.Common.Common.FormatNumber(item.gianhap,0)</td>
                             <td>@item.soluong</td>
-                            <td>@Common.FormatNumber(item.tongtien, 0)</td>
+                            <td>@Common.FormatNumber(item.TongTien, 0)</td>
                         </tr>
-                                i++;
-                            }
-                        }
-
+                        i++;
                     }
                 }
         </tbody>

@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ShopHoaTuoi.Models.EF.HOA>
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+       <div id="tab_1" class="tab_container active">
+           <div class="row">
+               <div class="col-lg-5 desc_col">
+                   <div class="tab_title" style="margin-bottom:0px">
+                       <h4>Mô tả</h4>
+                   </div>
+                   <div>
+                       @item.mota
+                   </div>
+               </div>
+           </div>
+       </div>
+    }
+}
+

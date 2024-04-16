@@ -32,32 +32,54 @@
         @{
             var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
             var listhd = (from hd in db.HOADONs
-                          join kh in db.KHACHHANGs
-                          on hd.makh equals kh.makh
                           join ct in db.CTHDs
                           on hd.mahd equals ct.mahd
+                          join kh in db.KHACHHANGs
+                          on hd.makh equals kh.makh
+                          join tk in db.TAIKHOANs
+                          on kh.makh equals tk.makh
                           select new
                           {
-                              kh.tenkh,
-                              kh.sdt,
-                              kh.email,
-                              ct.tongtien,
-                              hd.madonhang,
-                              hd.mahd
-                          }).Distinct().ToList();
-       }
-            @foreach (var iteam in listhd)
-            {
+                              Hoadon = hd,
+                              Khachhang = kh,
+                              ChiTiet = ct
+                          })
+                          .GroupBy(result => new
+                          {
+                              result.Hoadon.madonhang,
+                              result.Hoadon.tinhtrang,
+                              result.Hoadon.mahd,
+                              result.Hoadon.ngaylap,
+                              result.Khachhang.tenkh,
+                              result.Khachhang.sdt,
+                              result.Khachhang.email,
+                              result.Khachhang.makh
+                          })
+                          .Select(group => new
+                          {
+                              TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                              MaDonHang = group.Key.madonhang,
+                              TinhTrang = group.Key.tinhtrang,
+                              MaHD = group.Key.mahd,
+                              NgayLap = group.Key.ngaylap,
+                              TENKH = group.Key.tenkh,
+                              sdt = group.Key.sdt,
+                              email = group.Key.email
+                          });
+        }
 
-                if (Model.mahd == iteam.mahd)
-                {
+        @foreach (var iteam in listhd)
+        {
+
+            if (Model.mahd == iteam.MaHD)
+            {
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Mã đơn hàng</label>
-                                <p class="form-control">@iteam.madonhang</p>
+                                <p class="form-control">@iteam.MaDonHang</p>
                             </div>
                         </div>
 
@@ -65,13 +87,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tên khách hàng</label>
-                                <p class="form-control">@iteam.tenkh</p>
+                                <p class="form-control">@iteam.TENKH</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tổng hóa đơn</label>
-                                <p class="form-control">@ShopHoaTuoi.Common.Common.FormatNumber(iteam.tongtien, 0)</p>
+                                <p class="form-control">@ShopHoaTuoi.Common.Common.FormatNumber(iteam.TongTien, 0)</p>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -92,13 +114,13 @@
                                 <p class="form-control">@iteam.email</p>
                             </div>
                         </div>
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Trạng thái đơn hàng</label>
                                 <p class="form-control">@(Model.thanhtoan==1?"Thanh toán khi nhận hàng":"Đã thanh toán")</p>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
 
                         </div>
@@ -114,16 +136,16 @@
 
                 </div>
 
-                }
             }
-            <!-- /.card-body -->
-            <div class="card-footer">
-                <a href="/admin/hoadon" class="btn btn-outline-danger">Quay lại</a>
-                <button type="submit" class="btn btn-outline-success">Submit</button>
+        }
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <a href="/admin/hoadon" class="btn btn-outline-danger">Quay lại</a>
+            <button type="submit" class="btn btn-outline-success">Submit</button>
 
-            </div>
-            <!-- /.card-footer-->
         </div>
+        <!-- /.card-footer-->
+    </div>
     <!-- /.card -->
 
 </section>

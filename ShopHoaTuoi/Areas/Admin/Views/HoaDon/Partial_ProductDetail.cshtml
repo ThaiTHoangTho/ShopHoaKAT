@@ -33,9 +33,7 @@
             }
                 @foreach (var item in listhd)
                 {
-                    foreach (var m in Model)
-                    {
-                        if (m.mahd == item.mahd)
+                      if (Model.First().mahd == item.mahd)
                         {
                     <tr>
                         <td>@i</td>
@@ -47,7 +45,6 @@
                             i++;
                         }
                     }
-                }
             </tbody>
     </table>
 }

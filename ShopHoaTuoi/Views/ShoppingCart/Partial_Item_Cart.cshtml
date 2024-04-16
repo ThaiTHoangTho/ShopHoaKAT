@@ -1,6 +1,9 @@
 ﻿
 @model IEnumerable<ShopHoaTuoi.Models.CTGH>
 @using ShopHoaTuoi.Common
+
+
+<h2>Giỏ hàng</h2>
 <table class="table">
     <tr class="text-center">
         <th>STT</th>
@@ -23,11 +26,14 @@
             <tr class="text-center" id="trow_@item.mahoa">
                 <td>@(i + 1)</td>
                 <td>
-                    <a href="/product/detail/{@item.mahoa}">@item.tenhoa</a>
+                    <a href="/product/detail/@item.mahoa">@item.tenhoa</a>
                 </td>
                 <td><img src="@item.anh" width="100" /></td>
                 <td>@Common.FormatNumber(item.giaban, 0)</td>
-                <td><input type="number" class="form-control" id="Quantity_@item.mahoa" value="@item.soluong" /></td>
+                <td>
+                    @*<input type="number" class="form-control" id="Quantity_@item.mahoa" value="@item.soluong" />*@
+                    <input type="number" class="form-control quantity-input" id="Quantity_@item.mahoa" value="@item.soluong" data-max="@item.SoLuongTrongKho" />
+                </td>
                 <th>@Common.FormatNumber(item.tongtien, 2)</th>
                 <td>
                     <a href="#" data-id="@item.mahoa" class="btn btn-sm btn-outline-danger btnDelete">Xóa</a>
@@ -52,5 +58,24 @@
         </tr>
     }
 </table>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btnUpdate').click(function () {
+                var productId = $(this).data('id');
+                var inputQuantity = $('#Quantity_' + productId);
+                var currentQuantity = parseInt(inputQuantity.val());
+                var maxQuantity = parseInt(inputQuantity.data('max'));
 
+                // Kiểm tra xem số lượng mới có vượt quá số lượng trong kho hay không
+                if (currentQuantity > maxQuantity) {
+                    alert('Số lượng trong giỏ hàng không thể vượt quá số lượng có sẵn trong kho.');
+                    inputQuantity.val(maxQuantity); // Giảm số lượng xuống mức tối đa
+                }
+
+                // Tiếp tục xử lý cập nhật giỏ hàng
+                // ...
+            });
+        });
+    </script>
 

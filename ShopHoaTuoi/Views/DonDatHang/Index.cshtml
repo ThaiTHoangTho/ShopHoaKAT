@@ -1,0 +1,111 @@
+﻿
+@model List<ShopHoaTuoi.Models.EF.HOADON>
+
+@{
+    ViewBag.Title = "Đơn đặt hàng";
+}
+<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
+<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+
+
+@{
+    var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
+    var listhd = (from hd in db.HOADONs
+                  join ct in db.CTHDs
+                  on hd.mahd equals ct.mahd
+                  join kh in db.KHACHHANGs
+                  on hd.makh equals kh.makh
+                  join tk in db.TAIKHOANs
+                  on kh.makh equals tk.makh
+                  select new
+                  {
+                      Hoadon = hd,
+                      Khachhang = kh,
+                      ChiTiet = ct
+                  })
+            .GroupBy(result => new
+            {
+                result.Hoadon.madonhang,
+                result.Hoadon.tinhtrang,
+                result.Hoadon.mahd,
+                result.Hoadon.ngaylap,
+                result.Khachhang.makh
+            })
+            .Select(group => new
+            {
+                TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                MaDonHang = group.Key.madonhang,
+                TinhTrang = group.Key.tinhtrang,
+                MaHD = group.Key.mahd,
+                NgayLap = group.Key.ngaylap,
+                makh=group.Key.makh
+            });
+}
+<div class="container">
+    <h2 >Danh sách đơn hàng đã đặt</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Mã Đơn Hàng</th>
+                <th>Ngày Đặt</th>
+                <th>Trị Giá</th>
+                <th>Tình Trạng</th>
+                <!-- Thêm các cột khác theo nhu cầu của bạn -->
+                <th>Chi tiết</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.TAIKHOAN;}
+            @if (Model != null && Model.Any())
+            {
+                foreach (var order in listhd)
+                {
+                    if (user.makh == order.makh)
+                    {
+                        <tr>
+                            <td>@order.MaDonHang</td>
+                            <td>@order.NgayLap</td>
+                            <td>@ShopHoaTuoi.Common.Common.FormatNumber(order.TongTien)</td>
+                            @switch (@order.TinhTrang)
+                            {
+                                case 0:
+                                    <td></td>
+                                    break;
+                                case 1:
+                                    <td>Chưa thanh toán</td>
+                                    break;
+                                case 2:
+                                    <td>Đã thanh toán</td>
+                                    break;
+                                case 3:
+                                    <td>Đơn hàng đang được chuẩn bị</td>
+                                    break;
+                                case 4:
+                                    <td>Đơn hàng đang được giao</td>
+                                    break;
+                                case 5:
+                                    <td>Đã giao hàng</td>
+                                    break;
+
+                            }
+
+                            <!-- Thêm các cột khác theo nhu cầu của bạn -->
+                            <td>
+                                @Html.ActionLink("Xem chi tiết", "Details", "DonDatHang", new { id = @order.MaHD }, null)
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">Không có đơn hàng nào!!!</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+

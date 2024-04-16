@@ -43,14 +43,14 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
             return PartialView(items);
         }
         [HttpPost]
-        public ActionResult UpdateStatus(int id, int status)
+        public ActionResult UpdateTT(int id, int trangthai)
         {
             var item = db.HOADONs.Find(id);
             if (item != null)
             {
                 db.HOADONs.Attach(item);
-                //item. = status;
-                //db.Entry(item).Property(x => x.TypePayment).IsModified = true;
+                item.tinhtrang = trangthai;
+                db.Entry(item).Property(x => x.tinhtrang).IsModified = true;
                 db.SaveChanges();
                 return Json(new { message = "Success", Success = true });
             }

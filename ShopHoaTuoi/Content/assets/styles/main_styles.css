@@ -53,7 +53,7 @@ COLOR PALETTE
 }
 body {
 	font-family: 'Poppins', sans-serif;
-	font-size: 14px;
+	font-size: 15px;
 	line-height: 23px;
 	font-weight: 400;
 	background: #FFFFFF;
@@ -884,8 +884,7 @@ section
 		line-height: 1;
 		color: beige;
 	}
-.red_button
-{
+.red_button {
 	display: -webkit-inline-box;
 	display: -moz-inline-box;
 	display: -ms-inline-flexbox;
@@ -904,23 +903,23 @@ section
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-.red_button:hover
-{
-	background: #FE7C7F !important;
-}
-.red_button a
-{
-	display: block;
-	color: #FFFFFF;
-	text-transform: uppercase;
-	font-size: 14px;
-	font-weight: 500;
-	text-align: center;
-	line-height: 40px;
-	width: 100%;
-}
-.shop_now_button
-{
+
+	.red_button:hover {
+		background: #FE7C7F !important;
+	}
+
+	.red_button a {
+		display: block;
+		color: #FFFFFF;
+		text-transform: uppercase;
+		font-size: 14px;
+		font-weight: 500;
+		text-align: center;
+		line-height: 40px;
+		width: 100%;
+	}
+
+.shop_now_button {
 	width: 140px;
 	margin-top: 32px;
 }
@@ -1048,10 +1047,12 @@ section
 }
 .product-item {
 	width: 20%;
-	height: 380px;
+	height: 350px;
 	cursor: pointer;
+	padding: 10px;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-	background-color: floralwhite; /* Màu nền */
+	margin-top: 10px;
+	background-color: #f5eee6; /* Màu nền */
 	border-radius: 8px;
 }
 	.product-item::before {
@@ -1085,20 +1086,23 @@ section
 }
 	.product-item:hover::after {
 		box-shadow: 0 25px 29px rgba(63, 78, 100, 0.15);
+
 	}
 .product {
 	width: 100%;
-	height:320px;
+	height:290px;
 	border-right: solid 1px #e9e9e9;
 }
 
 .product_image {
 	overflow: hidden;
 	width: 100%;
+
 }
 	.product_image img {
 		object-fit: contain;
-		width: 100%;
+		width: 200px;
+		height:250px;
 		transition: all .3s ease;
 	}
 		.product_image img:hover {
@@ -1361,7 +1365,7 @@ section
 .product_slider_container
 {
 	width: 100%;
-	height: 340px;
+	height: 400px;
 	margin-top: 73px;
 }
 .product_slider_container::after
@@ -1382,7 +1386,7 @@ section
 }
 .product_slider_item .product-item
 {
-	height: 340px;
+	height: 400px;
 }
 .product_slider_item
 {

@@ -31,23 +31,35 @@
         </div>
         @{
             var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
-            var list = from a in db.NHACUNGCAPs
-                        join b in db.PHIEUNHAPHOAs
-                        on a.mancc equals b.mancc
-                        join ct in db.CT_PHIEUNHAPHOA
-                        on b.mapnh equals ct.mapnh
-                        select new
-                        {
-                            b.ngaylap,
-                            a.tenncc,
-                            ct.tongtien,
-                            ct.soluong,
-                            ct.gianhap,
-                            b.mapnh
-
-                        };
+            var listtenncc = (from n in db.PHIEUNHAPHOAs
+                              join ct in db.CT_PHIEUNHAPHOA
+                              on n.mapnh equals ct.mapnh
+                              join ncc in db.NHACUNGCAPs
+                              on n.mancc equals ncc.mancc
+                              select new
+                              {
+                                  PN = n,
+                                  NCC = ncc,
+                                  ChiTiet = ct
+                              })
+                    .GroupBy(result => new
+                    {
+                        result.NCC.mancc,
+                        result.NCC.tenncc,
+                        result.PN.ngaylap,
+                        result.PN.mapnh
+                    })
+                    .Select(group => new
+                    {
+                        TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                        manccc = group.Key.mancc,
+                        NgayLap = group.Key.ngaylap,
+                        tennccc = group.Key.tenncc,
+                        mapnh = group.Key.mapnh
+                    });
         }
-        @foreach (var iteam in list)
+
+        @foreach (var iteam in listtenncc)
         {
 
             if (Model.mapnh == iteam.mapnh)
@@ -58,7 +70,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Nhà Cung Cấp</label>
-                                <p class="form-control">@iteam.tenncc</p>
+                                <p class="form-control">@iteam.tennccc</p>
                             </div>
                         </div>
 
@@ -66,13 +78,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Ngày lập</label>
-                                <p class="form-control">@iteam.ngaylap</p>
+                                <p class="form-control">@iteam.NgayLap</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tổng hóa đơn</label>
-                                <p class="form-control">@ShopHoaTuoi.Common.Common.FormatNumber(iteam.tongtien, 0)</p>
+                                <p class="form-control">@ShopHoaTuoi.Common.Common.FormatNumber(iteam.TongTien, 0)</p>
                             </div>
                         </div>
                     </div>

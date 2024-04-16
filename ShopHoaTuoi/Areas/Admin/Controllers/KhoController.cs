@@ -27,5 +27,16 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
             ViewBag.Page = page;
             return View(items);
         }
+        public ActionResult Detail(int id)
+        {
+            var item = db.KHOes.Find(id);
+            return View(item);
+
+        }
+        public ActionResult Partial_DSH(int id)
+        {
+            var items = db.CT_KHO.Where(x => x.makho == id).ToList();
+            return PartialView(items);
+        }
     }
 }

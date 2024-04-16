@@ -60,7 +60,7 @@
                         <th>Loại hoa</th>
                         <th>Hình ảnh</th>
                         <th>Giá</th>
-                        <th>Mô tả</th>
+                        
                         <th>Bán chạy</th>
                         <th>Tác vụ</th>
                     </tr>
@@ -80,7 +80,6 @@
                                 <td><img class="imgproduct" data-id="@item.mahoa" src="@item.anh" width="50" /></td>
 
                                 <td>@ShopHoaTuoi.Common.Common.FormatNumber(item.giaban, 0)</td>
-                                <td>@item.mota</td>
                                 <td class="text-center">
                                     <a href='#' data-id="@item.mahoa" class="btnHot">@Html.Raw(check)</a>
                                 </td>

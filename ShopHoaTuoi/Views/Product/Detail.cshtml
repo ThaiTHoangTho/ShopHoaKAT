@@ -4,148 +4,179 @@
 }
 <link href="~/Content/assets/styles/single_responsive.css" rel="stylesheet" />
 <link href="~/Content/assets/styles/single_styles.css" rel="stylesheet" />
-<link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+
 @if (Model != null)
 {
     <div class="container fill_height">
-        <div class="container single_product_container">
-            <div class="row">
-                <div class="col">
+        <div class="row">
+            <div class="col">
 
-                    <!-- Breadcrumbs -->
+                <!-- Breadcrumbs -->
 
-                    <div class="breadcrumbs d-flex flex-row align-items-center">
-                        <ul>
-                            <li><a href="/">Trang chủ</a></li>
-                            <li><a href="/danh-muc-san-pham/@Model.maloai"><i class="fa fa-angle-right" aria-hidden="true"></i>@Model.LOAIHOA.tenloai</a></li>
-                            <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a>@Model.tenhoa</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-7">
-                    @* @if (Model.ProductImage != null && Model.ProductImage.Any())
-                {*@
-                    <div class="single_product_pics">
-                        <div class="row">
-
-                            <div class="col-lg-9 image_col order-lg-2 order-1">
-                                <div class="single_product_image">
-                                    <div class="single_product_image_background" style="background-image:url(@Model.anh)"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @*}*@
-
-                </div>
-                <div class="col-lg-5">
-                    <div class="product_details">
-                        <div class="product_details_title">
-                            <h2>@Model.tenhoa</h2>
-                            <p>@Model.mota</p>
-                        </div>
-                        <div class="product_price">@ShopHoaTuoi.Common.Common.FormatNumber(Model.giaban, 0)</div>
-                        <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
-                            <span class="ti-truck"></span><span>Miễn phí giao hàng trong phạm vi 5km</span>
-                        </div>
-
-                        @{
-                            var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
-                            var listhd = (from h in db.HOAs
-                                          join d in db.DANHGIAs
-                                          on h.mahoa equals d.mahoa
-                                          select new
-                                          {
-                                              d.rating,
-                                              h.mahoa
-                                          }).Distinct().ToList();
-                        }
-
-                        @foreach (var iteam in listhd)
-                        {
-
-                            if (Model.mahoa == iteam.mahoa)
-
-                            {
-                                <ul class="star_rating">
-                                    @Html.Raw(ShopHoaTuoi.Common.Common.HtmlRate(iteam.rating))
-                                </ul>
-                            }
-                        }
-                        <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
-                            <span>Số lượng:</span>
-                            <div class="quantity_selector">
-                                <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                <span id="quantity_value">1</span>
-                                <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                            </div>
-                            <div class="red_button add_to_cart_button"><a href="#" class="btnAddtocart" data-id="@Model.mahoa">add to cart</a></div>
-                            <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tabs_section_container">
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <div class="tabs_container">
-                                <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                                    <li class="tab active" data-active-tab="tab_1"><span>Mô tả</span></li>
-                                    <li class="tab" data-active-tab="tab_3"><span>Đánh giá</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-
-                            <!-- Tab Description -->
-
-                            <div id="tab_1" class="tab_container active">
-                                <div class="row">
-
-                                </div>
-                            </div>
-                            <!-- Tab Reviews -->
-
-                            <div id="tab_3" class="tab_container">
-                                <div class="row">
-
-                                    <!-- User Reviews -->
-
-                                    <div class="col-lg-6 reviews_col">
-                                        @Html.Action("_LoadDanhGia", "DanhGia", new { mahoa = Model.mahoa })
-                                    </div>
-
-                                    <!-- Add Review -->
-
-                                    <div class="col-lg-6 add_review_col">
-
-                                        @Html.Action("_DanhGia", "DanhGia", new { mahoa = Model.mahoa })
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                <div class="breadcrumbs d-flex flex-row align-items-center">
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/danh-muc-san-pham/@Model.maloai"><i class="fa fa-angle-right" aria-hidden="true"></i>@Model.LOAIHOA.tenloai</a></li>
+                        <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a>@Model.tenhoa</li>
+                    </ul>
                 </div>
 
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-7">
+                @* @if (Model.ProductImage != null && Model.ProductImage.Any())
+                    {*@
+                <div class="single_product_pics">
+                    <div class="row">
+
+                        <div class="col-lg-9 image_col order-lg-2 order-1">
+                            <div class="single_product_image">
+                                <div class="single_product_image_background" style="background-image:url(@Model.anh)"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-        
+                @*}*@
+
+            </div>
+            <div class="col-lg-5">
+                <div class="product_details">
+                    <div class="product_details_title">
+                        <h2>@Model.tenhoa</h2>
+                        <ul>
+                            <li>
+                                <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />Giao hoa hỏa tốc 45 - 90 phút
+                            </li>
+                            <li class="bullet-checkmark">
+                                <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />
+                                <a href="https://mrhoa.com/chinh-sach-doi-tra-hang/" rel="nofollow">HighKat <b>hoàn tiền 100%</b> nếu bạn không hài lòng</a>
+                            </li>
+                            <li class="bullet-checkmark">
+                                <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />Xuất hóa đơn VAT (+8%) công ty HighKat
+                            </li>
+                            <li class="bullet-checkmark"> <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />Miễn phí giao hoa nội thành từ 800,000đ</li>
+                            <li class="bullet-checkmark"> <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />Tặng kèm&nbsp; thiệp, banner và in chữ, nội dung</li>
+                            <li class="bullet-checkmark"> <img src="~/Content/assets/image/icons8-check-48.png" style="height:25px;width:25px" />HighKat gửi hình trước khi giao và tại nơi giao</li>
+                        </ul>
+                    </div>
+
+                    <div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+                        <span class="ti-truck"></span><span>Miễn phí giao hàng trong phạm vi 5km</span>
+                    </div>
+                    <div class="product_price">@ShopHoaTuoi.Common.Common.FormatNumber(Model.giaban, 0)</div>
+
+                    <ul class="star_rating">
+                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                    </ul>
+                    @*  <div class="product_color">
+            <span>Select Color:</span>
+            <ul>
+                <li style="background: #e54e5d"></li>
+                <li style="background: #252525"></li>
+                <li style="background: #60b3f3"></li>
+            </ul>
+        </div>*@
+                    <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                        <span>Số lượng:</span>
+                        <div class="quantity_selector">
+                            <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                            <span id="quantity_value" data-max="@Model.CT_KHO.First().soluong">1</span>
+                            <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddtocart" data-id="@Model.mahoa">add to cart</a></div>
+                        <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="tabs_section_container">
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="tabs_container">
+                        <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                            <li class="tab active" data-active-tab="tab_1"><span>Mô tả</span></li>
+                            <li class="tab" data-active-tab="tab_3"><span>Đánh giá (@ViewBag.Count)</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                    <!-- Tab Description -->
+
+                    <div id="tab_1" class="tab_container active">
+                        <div class="row">
+                            @Html.Action("_LoadMoTa", "Product", new { mahoa = Model.mahoa })
+                        </div>
+                    </div>
+                    <!-- Tab Reviews -->
+
+                    <div id="tab_3" class="tab_container">
+                        <div class="row">
+
+                            <!-- User Reviews -->
+
+                            <div class="col-lg-6 reviews_col">
+                                @Html.Action("_LoadDanhGia", "DanhGia", new { mahoa = Model.mahoa })
+                            </div>
+
+                            <!-- Add Review -->
+
+                            <div class="col-lg-6 add_review_col">
+
+                                @Html.Action("_DanhGia", "DanhGia", new { mahoa = Model.mahoa })
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <h2 style="text-align:center;font-family:'Times New Roman'">Các hoa tương tự</h2>
+        <div class="container">
+
+            <div class="row">
+                <!-- Product 1 -->
+
+                @foreach (var item in ViewBag.Product)
+                {
+
+                    <div class="product-item @item.LOAIHOA.maloai" style="height:400px">
+                        <div class="product discount product_filter" style="height:340px">
+                            <div class="product_image" style="width:100%;height:250px;">
+                                <img src="@item.anh" alt="@item.tenhoa" style="width:100%;height:250px">
+                            </div>
+                            <div class="product_info">
+                                <h6 class="product_name"><a href="/product/detail/@item.mahoa">@item.tenhoa</a></h6>
+                                <div class="product_price">@ShopHoaTuoi.Common.Common.FormatNumber(item.giaban, 0)</div>
+
+                            </div>
+                        </div>
+                        <div class="red_button add_to_cart_button"><a href="#" class="btnAddtocart" data-id="@item.mahoa">add to cart</a></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 
 }
-
 
 @section scripts{
+
     <script src="~/Content/assets/js/single_custom.js"></script>
 }
+

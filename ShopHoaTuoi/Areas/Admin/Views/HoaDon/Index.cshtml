@@ -53,14 +53,29 @@
                                           on hd.mahd equals ct.mahd
                                           select new
                                           {
-                                              kh.tenkh,
-                                              kh.sdt,
-                                              ct.tongtien,
-                                              hd.madonhang,
-                                              hd.ngaylap,
-                                              hd.mahd
-                                          }).Distinct().ToList();
-                        }
+                                              hd=hd,
+                                              ChiTiet = ct,
+                                              kh=kh
+
+                                          })
+                                        .GroupBy(result => new
+                                        {
+                                            result.hd.madonhang,
+                                            result.kh.tenkh,
+                                            result.kh.sdt,
+                                            result.hd.mahd,
+                                            result.hd.ngaylap
+                                        })
+                                        .Select(group => new
+                                        {
+                                            TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                                            mahd = group.Key.mahd,
+                                            tenkh = group.Key.tenkh,
+                                            madonhang = group.Key.madonhang,
+                                            ngaylap=group.Key.ngaylap,
+                                            sdt=group.Key.sdt
+                                        });
+                                                                }
                         @foreach (var iteam in listhd)
                         {
                             if (Model != null && Model.Any())
@@ -70,7 +85,7 @@
                                     <td>@iteam.tenkh</td>
                                     <td>@iteam.sdt</td>
                                     @*<td>@(item.TypePayment==1?"Thanh toán khi nhận hàng":"Đã thanh toán")</td>*@
-                                    <td>@ShopHoaTuoi.Common.Common.FormatNumber(iteam.tongtien, 0)</td>
+                                    <td>@ShopHoaTuoi.Common.Common.FormatNumber(iteam.TongTien, 0)</td>
                                     <td>@iteam.ngaylap.ToString("dd/MM/yyyy")</td>
                                     <td>
                                         <a href="/admin/hoadon/detail/@iteam.mahd" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
@@ -116,7 +131,17 @@
                             <option value="2">
                                 Đã thanh toán
                             </option>
+                            <option value="3">
+                                Đang chuẩn bị hoa
+                            </option>
+                            <option value="4">
+                               Đang giao hoa
+                            </option>
+                            <option value="5">
+                                Giao thành công
+                            </option>
                         </select>
+
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -141,9 +166,9 @@
                     var id = $('#txtOrderId').val();
                     var tt = $('#ddTrangThai').val();
                     $.ajax({
-                        url: '/admin/order/UpdateStatus',
+                        url: '/admin/HoaDon/UpdateTT',
                         type: 'POST',
-                        data: { id: id, status: tt },
+                        data: { id: id, trangthai: tt },
                         success: function (res) {
                             if (res.Success) {
                                 location.reload();

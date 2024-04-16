@@ -1,93 +1,139 @@
-﻿
-@model List<ShopHoaTuoi.Models.EF.HOADON>
+﻿@model ShopHoaTuoi.Models.EF.HOADON
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Chi tiết đơn hàng";
 }
-
 <link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
-<h2>Danh sách đơn hàng đã đặt</h2>
-@{
-    var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
-    var listhd = (from hd in db.HOADONs
-                  join ct in db.CTHDs
-                  on hd.mahd equals ct.mahd
-                  join kh in db.KHACHHANGs
-                  on hd.makh equals kh.makh
-                  join tk in db.TAIKHOANs
-                  on kh.makh equals tk.makh
-                  select new
-                  {
-                      Hoadon = hd,
-                      Khachhang = kh,
-                      ChiTiet=ct
-                  })
-            .GroupBy(result => new
-            {
-                result.Hoadon.madonhang,
-                result.Hoadon.tinhtrang,
-                result.Hoadon.mahd,
-                result.Hoadon.ngaylap,
-            })
-            .Select(group => new
-            {
-                TongTien = group.Sum(item => item.ChiTiet.tongtien),
-                MaDonHang = group.Key.madonhang,
-                TinhTrang = group.Key.tinhtrang,
-                MaHD = group.Key.mahd,
-                NgayLap = group.Key.ngaylap
-            });
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>Mã Đơn Hàng</th>
-            <th>Ngày Đặt</th>
-            <th>Trị Giá</th>
-            <th>Tình Trạng</th>
-            <!-- Thêm các cột khác theo nhu cầu của bạn -->
-            <th>Chi tiết</th>
-        </tr>
-    </thead>
-    <tbody>
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
+<!-- Main content -->
+<div class="container">
+    <section class="content">
 
-        @foreach (var order in listhd)
-        {
-            
-            <tr>
-                <td>@order.MaDonHang</td>
-                <td>@order.NgayLap</td>
-                <td>@ShopHoaTuoi.Common.Common.FormatNumber( order.TongTien)</td>
-                @switch (@order.TinhTrang)
+        <!-- Default box -->
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Chi tiết đơn hàng</h3>
+            </div>
+            @{
+                var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
+                var listhd = (from hd in db.HOADONs
+                              join ct in db.CTHDs
+                              on hd.mahd equals ct.mahd
+                              join kh in db.KHACHHANGs
+                              on hd.makh equals kh.makh
+                              join tk in db.TAIKHOANs
+                              on kh.makh equals tk.makh
+                              select new
+                              {
+                                  Hoadon = hd,
+                                  Khachhang = kh,
+                                  ChiTiet = ct
+                              })
+                              .GroupBy(result => new
+                              {
+                                  result.Hoadon.madonhang,
+                                  result.Hoadon.tinhtrang,
+                                  result.Hoadon.mahd,
+                                  result.Hoadon.ngaylap,
+                                  result.Khachhang.tenkh,
+                                  result.Khachhang.sdt,
+                                  result.Khachhang.email,
+                                  result.Khachhang.makh
+                              })
+                              .Select(group => new
+                              {
+                                  TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                                  MaDonHang = group.Key.madonhang,
+                                  TinhTrang = group.Key.tinhtrang,
+                                  MaHD = group.Key.mahd,
+                                  NgayLap = group.Key.ngaylap,
+                                  TENKH = group.Key.tenkh,
+                                  sdt = group.Key.sdt,
+                                  email = group.Key.email
+                              });
+            }
+
+            @foreach (var iteam in listhd)
+            {
+
+                if (Model.mahd == iteam.MaHD)
                 {
-                    case 0:
-                    <td></td>
-                        break;
-                    case 1:
-                        <td>Chưa thanh toán</td>
-                        break;
-                    case 2:
-                        <td>Đã thanh toán</td>
-                        break;
-                    case 3:
-                        <td>Đơn hàng đang được chuẩn bị</td>
-                        break;
-                    case 4:
-                        <td>Đơn hàng đang được giao</td>
-                        break;
-                    case 5:
-                        <td>Đã giao hàng</td>
-                        break;
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mã đơn hàng</label>
+                                    <p class="form-control">@iteam.MaDonHang</p>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tên khách hàng</label>
+                                    <p class="form-control">@iteam.TENKH</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tổng hóa đơn</label>
+                                    <p class="form-control">@ShopHoaTuoi.Common.Common.FormatNumber(iteam.TongTien, 0)</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Điện thoại</label>
+                                    <p class="form-control">@iteam.sdt</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Ngày đặt hàng</label>
+                                    <p class="form-control">@Model.ngaylap.ToString("dd/MM/yyyy")</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <p class="form-control">@iteam.email</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Trạng thái đơn hàng</label>
+                                    <p class="form-control">@(iteam.TinhTrang==1?"Chưa thanh toán":"Đã thanh toán")</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2> Danh sách sản phẩm</h2>
+                            </div>
+                            <div class="col-12">
+                                @Html.Action("Partial_ProductDetail", "DonDatHang", new { id = Model.mahd })
+                            </div>
+                        </div>
+
+                    </div>
 
                 }
+            }
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <a href="/dondathang/" class="btn btn-outline-danger">Quay lại</a>
 
-                <!-- Thêm các cột khác theo nhu cầu của bạn -->
-                <td>
-                    @Html.ActionLink("Xem chi tiết", "Details", "Order", new { orderId = @order.MaHD }, null)
-                </td>
-            </tr>
-            
-        }
-    </tbody>
-</table>
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+</div>
 

@@ -31,6 +31,7 @@ namespace ShopHoaTuoi.Models.EF
         [StringLength(80)]
         public string email { get; set; }
 
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HOADON> HOADONs { get; set; }
 

@@ -58,9 +58,7 @@
                     <th>STT</th>
                     <th>Tên kho</th>
                     <th>Vị trí</th>
-                    <th>Tên hoa</th>
                     <th>Số lượng</th>
-                    <th>Giá nhập</th>
                     <th>Tác vụ</th>
                 </tr>
             </thead>
@@ -68,18 +66,29 @@
                 @{
                     var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
                     var listkho = (from k in db.KHOes
-                                  join ct in db.CT_KHO
-                                  on k.makho equals ct.makho
-                                  join h in db.HOAs
-                                  on ct.mahoa equals h.mahoa
-                                  select new
-                                  {
-                                      h.tenhoa,
-                                      ct.soluong,
-                                      k.tenkho,
-                                      k.vitri,
-                                      k.makho
-                                  }).Distinct().ToList();
+                                   join ct in db.CT_KHO
+                                   on k.makho equals ct.makho
+                                   join h in db.HOAs
+                                   on ct.mahoa equals h.mahoa
+                                   select new
+                                   {
+                                       h = h,
+                                       ChiTiet = ct,
+                                       kh = k
+                                   })
+                                    .GroupBy(result => new
+                                    {
+                                        result.kh.tenkho,
+                                        result.kh.vitri
+                                        ,result.kh.makho
+                                    })
+                                    .Select(group => new
+                                    {
+                                        Soluong = group.Sum(item => item.ChiTiet.soluong),
+                                        makho = group.Key.makho,
+                                        tenkho = group.Key.tenkho,
+                                        vitri = group.Key.vitri
+                                    });
                 }
                 @if (Model != null && Model.Any())
                 {
@@ -91,11 +100,9 @@
                             <td>@i</td>
                             <td>@item.tenkho</td>
                             <td>@item.vitri</td>
-                            <td>@item.tenhoa</td>
-                            <td>@item.soluong</td>
+                            <td>@item.Soluong</td>
                             <td>
-                                <a href="/admin/hoa/edit/@item.makho" class="btn btn-sm btn-outline-info">Sửa</a>
-                                <a href="#" data-id="@item.makho" class="btn btn-sm btn-outline-danger btnDelete">Xóa</a>
+                                <a href="/admin/kho/detail/@item.makho" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
                             </td>
                         </tr>
                         i++;

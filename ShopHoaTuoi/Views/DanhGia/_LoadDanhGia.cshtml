@@ -11,7 +11,9 @@
     {
     <div class="user_review_container d-flex flex-column flex-sm-row">
         <div class="user">
-            <div class="user_pic"></div>
+            <div class="user_pic">
+                <img src="~/Content/assets/image/icons8-avatar-70.png" style="width:65px; height:60px"/>
+            </div>
             <div class="user_rating">
                 <ul class="star_rating">
                 @Html.Raw(ShopHoaTuoi.Common.Common.HtmlRate(item.rating))
@@ -20,7 +22,7 @@
         </div>
         <div class="review">
             <div class="review_date">@item.ngaydang.ToString("dd MM yyyy")</div>
-            <div class="user_name">@item.TAIKHOAN.username</div>
+            <div class="user_name">@item.TAIKHOAN.KHACHHANG.tenkh</div>
             <p>@item.comment.</p>
         </div>
     </div>

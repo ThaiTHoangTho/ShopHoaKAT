@@ -19,29 +19,17 @@ namespace ShopHoaTuoi.Areas.Admin.Controllers
         // GET: Admin/PhieuNhapHoa
         public ActionResult Index(int?page)
         {
-            var query = from a in db.NHACUNGCAPs
-                        join b in db.PHIEUNHAPHOAs
-                        on a.mancc equals b.mancc
-                        join ct in db.CT_PHIEUNHAPHOA
-                        on b.mapnh equals ct.mapnh
-                        select new
-                        {
-                            ngaylap = b.ngaylap,
-                            tenncc = a.tenncc,
-                            mancc= a.mancc,
-                            mapnh=b.mapnh
-                            
-                        };
-            var items = db.PHIEUNHAPHOAs.OrderByDescending(x => x.ngaylap).ToList();
-            if (items == null)
+            IEnumerable<PHIEUNHAPHOA> items = db.PHIEUNHAPHOAs.OrderByDescending(x => x.mapnh);
+            var pageSize = 10;
+            if (page == null)
             {
                 page = 1;
             }
-            var pageIndex = page ?? 1;
-            var pageSize = 5;
+            var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
-            ViewBag.Page = pageIndex;
-            return View(items.ToPagedList(pageIndex, pageSize));
+            ViewBag.Page = page;
+            return View(items);
         }
         public ActionResult Add()
         {

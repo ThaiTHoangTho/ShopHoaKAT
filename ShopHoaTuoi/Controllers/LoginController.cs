@@ -52,16 +52,28 @@ namespace ShopHoaTuoi.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Register(TAIKHOAN taikhoan)
+        public ActionResult Register(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
+                TAIKHOAN tk= new TAIKHOAN();
+                KHACHHANG kh = new KHACHHANG();
                 var dao = new LogionDAO();
-                var result = dao.Register(taikhoan.username);
+                var result = dao.Register(model.tendangnhap);
                 if (result == 1)
                 {
-                    taikhoan.role = "customer";
-                    db.TAIKHOANs.Add(taikhoan);
+                    kh.tenkh = model.HoTen;
+                    kh.diachi = model.DiaChi;
+                    kh.email= model.Email;
+                    kh.sdt = model.SDT;
+                    db.KHACHHANGs.Add(kh);  
+                    db.SaveChanges();
+                    var makh = kh.makh;
+                    tk.username = model.tendangnhap;
+                    tk.password = model.matkhau;
+                    tk.role = "customer";
+                   tk.makh = makh;
+                    db.TAIKHOANs.Add(tk);
                     db.SaveChanges();
                     return RedirectToAction("Index", "Login");
                 }

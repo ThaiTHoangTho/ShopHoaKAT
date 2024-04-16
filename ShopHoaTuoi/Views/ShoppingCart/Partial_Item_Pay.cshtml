@@ -4,7 +4,6 @@
 @if (Model != null && Model.Any())
 {
     <h3>GIỎ HÀNG <span style="float:right;position:relative"><small>@Model.Count()</small></span></h3>
-    /* var i = 0;*/
     var sum = decimal.Zero;
     <div style="border:1px solid #808080;">
         <table class="table">
@@ -14,7 +13,7 @@
                 <tr>
                     <td>@item.tenhoa</td>
                     <td>@item.soluong</td>
-                    <td>@Common.FormatNumber(item.giaban, 0)</td>
+                    <td>@Common.FormatNumber(item.tongtien, 0)</td>
                 </tr>
             }
             <tr>
@@ -24,10 +23,6 @@
             </tr>
         </table>
     </div>
-
-}
-else
-{
 
 }
 

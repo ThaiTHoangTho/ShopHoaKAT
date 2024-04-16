@@ -16,9 +16,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">@*
     <link href="~/Content/assets/styles/main_styles.css" rel="stylesheet" />
-    <link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />
+    <link href="~/Content/assets/styles/categories_styles.css" rel="stylesheet" />*@
     <link href="~/Content/assets/plugins/button-contact-vr/css/style.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@600&display=swap" rel="stylesheet">
@@ -71,20 +71,20 @@
                                         <li class="account" style="background-color: #E1CFBB ">
                                             <a href="#">
                                                 @user.KHACHHANG.tenkh
-                                                <i class="fa fa-angle-down"></i>
+                                                <i class="fa fa-angle-down" style="min-width:60px"></i>
                                             </a>
                                             <ul class="account_selection">
-                                                <li><a href="/login/Logout"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
+                                                <li><a href="/home/Logout"><i class="fa fa-sign-in"  aria-hidden="true"></i>Đăng xuất</a></li>
                                                 @*
                                                     <li><a href="/DonDatHang/Details"><i class="fa fa-user-plus" aria-hidden="true"></i>Xem đơn hàng</a></li>*@
-                                                @Html.ActionLink("Xem chi tiết đơn hàng", "Details", "DonDatHang", new { customerId = user.makh }, null)
+                                                @Html.ActionLink("Xem chi tiết đơn hàng", "Index", "DonDatHang", new { customerId = user.makh }, null)
                                             </ul>
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="account" style="background-color: #E1CFBB ">
-                                            <a href="/login"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                            <a href="/home/login"><i class="fa fa-user" aria-hidden="true"></i></a>
                                         </li>
                                         <ul class="account_selection">
                                             <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
@@ -164,7 +164,7 @@
                 <div class="phone-vr">
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
-                        <a target="_blank" href="https://zalo.me/0937051919">
+                        <a target="_blank" href="https://zalo.me/0394799954">
                             <img alt="Zalo" src="https://mrhoa.com/wp-content/plugins/button-contact-vr/img/zalo.png">
                         </a>
                     </div>
@@ -196,7 +196,7 @@
             </div>
             <div class="phone-bar phone-bar-n">
                 <a href="tel:0394799954">
-                    <span class="text-phone">0394799954-Tho</span>
+                    <span class="text-phone">0394799954-HighKAT</span>
                 </a>
             </div>
             <!-- end phone -->

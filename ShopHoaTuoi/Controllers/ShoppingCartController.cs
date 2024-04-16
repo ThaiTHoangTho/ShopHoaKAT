@@ -14,7 +14,9 @@ namespace ShopHoaTuoi.Controllers
     public class ShoppingCartController : Controller
     {
         private ShopHoaTuoiEntities db = new ShopHoaTuoiEntities();
-       
+
+        GIOHANG ghang = new GIOHANG();
+
         // GET: ShoppingCart
 
         public ActionResult Index()
@@ -27,6 +29,7 @@ namespace ShopHoaTuoi.Controllers
             }
             return View();
         }
+    
         public ActionResult VnpayReturn()
         {
             if (Request.QueryString.Count > 0)
@@ -66,10 +69,6 @@ namespace ShopHoaTuoi.Controllers
                             db.Entry(item).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }    
-
-                        //Thanh toan thanh cong
-                        ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
-                        //log.InfoFormat("Thanh toan thanh cong, OrderId={0}, VNPAY TranId={1}", orderId, vnpayTranId);
                     }
                     else
                     {
@@ -77,24 +76,15 @@ namespace ShopHoaTuoi.Controllers
                         ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý.Mã lỗi: " + vnp_ResponseCode;
                         //log.InfoFormat("Thanh toan loi, OrderId={0}, VNPAY TranId={1},ResponseCode={2}", orderId, vnpayTranId, vnp_ResponseCode);
                     }
-
-                    /*displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
-                    displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
-                    displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();*/
                     ViewBag.Success = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
-                   // displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;
-
-                   /* displayTmnCode.InnerText = "Mã Website (Terminal ID):" + TerminalID;
-                    displayTxnRef.InnerText = "Mã giao dịch thanh toán:" + orderId.ToString();
-                    displayVnpayTranNo.InnerText = "Mã giao dịch tại VNPAY:" + vnpayTranId.ToString();
-                    displayAmount.InnerText = "Số tiền thanh toán (VND):" + vnp_Amount.ToString();
-                    displayBankCode.InnerText = "Ngân hàng thanh toán:" + bankCode;*/
+               
                 }
             }
                return View();
         }
         public ActionResult CheckOutSuccess()
         {
+            
             return View();
         }
         public ActionResult Checkout()
@@ -120,8 +110,8 @@ namespace ShopHoaTuoi.Controllers
             if (ModelState.IsValid)
             {
                 GIOHANG cart = (GIOHANG)Session["Cart"];
-                if (cart != null)
-                {
+                    if (cart != null)
+                    {
                     var user = Session["taikhoan"] as ShopHoaTuoi.Models.EF.TAIKHOAN;
                     if (user == null)
                     {
@@ -131,19 +121,30 @@ namespace ShopHoaTuoi.Controllers
                         kh.email = orderView.email;
                         db.KHACHHANGs.Add(kh);
                         order.makh = kh.makh;
+                       
                     }
                     else
                     {
                         order.makh = user.makh;
                     }
-                    cart.Items.ForEach(x => order.CTHDs.Add(new CTHD
+                    foreach (var item in cart.Items)
                     {
+                        var productInCart = db.CT_KHO.First(m => m.mahoa == item.mahoa);
 
-                        mahoa = x.mahoa,
-                        soluong = x.soluong,
-                        tongtien = x.tongtien
-
-                    }));
+                        // Kiểm tra xem số lượng có đủ để đặt hàng hay không
+                        if (productInCart.soluong >= item.soluong)
+                        {
+                            // Tạo chi tiết hóa đơn và cập nhật số lượng trong kho
+                            order.CTHDs.Add(new CTHD
+                            {
+                                mahoa = item.mahoa,
+                                soluong = item.soluong,
+                                tongtien = item.tongtien
+                            });
+                            productInCart.soluong -= item.soluong;
+                        }
+                        
+                    }
                     //order.= cart.Items.Sum(x => (x.giaban * x.soluong));
                     //order.makh = kh.makh;
                     order.tinhtrang = 1;//1 chưa 2 rồi
@@ -151,10 +152,10 @@ namespace ShopHoaTuoi.Controllers
                     order.thanhtoan = orderView.thanhtoan;
                     Random rd = new Random();
                     order.madonhang = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
-
                     db.HOADONs.Add(order);
                     db.SaveChanges();
                     //send mail
+
                     var strSanPham = "";
                     var thanhtien = decimal.Zero;
                     var TongTien = decimal.Zero;
@@ -172,21 +173,22 @@ namespace ShopHoaTuoi.Controllers
                     contentCustomer = contentCustomer.Replace("{{MaDon}}", order.madonhang);
                     contentCustomer = contentCustomer.Replace("{{SanPham}}", strSanPham);
                     contentCustomer = contentCustomer.Replace("{{NgayDat}}", DateTime.Now.ToString("dd/MM/yyyy"));
-                    contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", kh.tenkh);
-                    contentCustomer = contentCustomer.Replace("{{Phone}}", kh.tenkh);
+                    contentCustomer = contentCustomer.Replace("{{TenKhachHang}}", orderView.tenkh);
+                    contentCustomer = contentCustomer.Replace("{{Phone}}", orderView.sdt);
                     contentCustomer = contentCustomer.Replace("{{Email}}", orderView.email);
-                    contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", kh.diachi);
+                    contentCustomer = contentCustomer.Replace("{{DiaChiNhanHang}}", orderView.diachi);
                     contentCustomer = contentCustomer.Replace("{{ThanhTien}}", ShopHoaTuoi.Common.Common.FormatNumber(thanhtien, 0));
                     contentCustomer = contentCustomer.Replace("{{TongTien}}", ShopHoaTuoi.Common.Common.FormatNumber(TongTien, 0));
                     ShopHoaTuoi.Common.Common.SendMail("HighKat_FLower", "Đơn đặt hàng #" + order.madonhang, contentCustomer.ToString(), orderView.email);
-                    cart.Clear();
                     code = new { Success = true, Code = orderView.thanhtoan, Url = "" };
                     if (orderView.thanhtoan == 2)
                     {
                         var url = UrlPayment(orderView.TypePaymentVN, order.madonhang);
                         code = new { Success = true, Code = orderView.thanhtoan, Url = url };
                     }
+
                 }
+                cart.Clear();
             }
             return Json(code);
 
@@ -213,6 +215,7 @@ namespace ShopHoaTuoi.Controllers
         [HttpPost]
         public ActionResult Addtocart(int id, int quantity)
         {
+          
             var code = new { Success = false, msg = "", code = -1, Count = 0 };
             var checkProduct = db.HOAs.FirstOrDefault(x => x.mahoa == id);
             if (checkProduct != null)
@@ -222,15 +225,21 @@ namespace ShopHoaTuoi.Controllers
                 {
                     cart = new GIOHANG();
                 }
+               
                 CTGH shoppingcart = new CTGH
                 {
                     mahoa = checkProduct.mahoa,
                     tenhoa = checkProduct.tenhoa,
                     soluong = quantity,
                     anh = checkProduct.anh,
-                    giaban = (decimal)checkProduct.giaban
+                    giaban = (decimal)checkProduct.giaban,
 
                 };
+                var soLuongTrongKho = db.CT_KHO
+               .Where(ctkho => ctkho.mahoa == shoppingcart.mahoa)
+               .Select(ctkho => ctkho.soluong)
+               .FirstOrDefault();
+                shoppingcart.SoLuongTrongKho = (int)soLuongTrongKho;
                 shoppingcart.tongtien = shoppingcart.soluong * shoppingcart.giaban;
                 cart.Addtocart(shoppingcart, quantity);
                 Session["Cart"] = cart;
@@ -290,9 +299,8 @@ namespace ShopHoaTuoi.Controllers
 
             //Build URL for VNPAY
             VnPayLibrary vnpay = new VnPayLibrary();
-
-            var detail = db.CTHDs.FirstOrDefault(x => x.mahd == order.mahd);
-            var Price = (long)detail.tongtien * 100;
+            var detail =db.CTHDs.Where(x => x.mahd == order.mahd);
+            var Price = (long)detail.Sum(x=>x.tongtien) * 100;
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);

@@ -1,12 +1,9 @@
-﻿@model PagedList.IPagedList<ShopHoaTuoi.Models.EF.PHIEUNHAPHOA>
+﻿@model PagedList.PagedList<ShopHoaTuoi.Models.EF.PHIEUNHAPHOA>
 @using PagedList.Mvc;
-@using PagedList;
-@{ 
+@{
     ViewBag.Title = "Danh sách phiếu nhập ";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-
 
 @section naviheader{
     <!-- Left navbar links -->
@@ -22,6 +19,22 @@
         </li>
     </ul>
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý phiếu nhập</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 <!-- Main content -->
 <section class="content">
     <!-- Default box -->
@@ -47,29 +60,43 @@
             <tbody>
                 @{
                     var db = new ShopHoaTuoi.Models.EF.ShopHoaTuoiEntities();
-                    var listtenncc = (from p in db.PHIEUNHAPHOAs
-                                      join ncc in db.NHACUNGCAPs
-                                      on p.mancc equals ncc.mancc
-                                      join ct in db.CT_PHIEUNHAPHOA
-                                      on p.mapnh equals ct.mapnh
-                                      select new
-                                      {
-                                          p.mancc,
-                                          ncc.tenncc,
-                                          p.ngaylap,
-                                          p.mapnh,
-                                          ct.tongtien
-                                      }).Distinct().ToList();
+                    var listtenncc = (from n in db.PHIEUNHAPHOAs
+                                  join ct in db.CT_PHIEUNHAPHOA
+                                  on n.mapnh equals ct.mapnh
+                                  join ncc in db.NHACUNGCAPs
+                                  on n.mancc equals ncc.mancc
+                                  select new
+                                  {
+                                      PN = n,
+                                      NCC = ncc,
+                                      ChiTiet = ct
+                                  })
+                            .GroupBy(result => new
+                            {
+                                result.NCC.mancc,
+                                result.NCC.tenncc,
+                                result.PN.ngaylap,
+                                result.PN.mapnh
+                            })
+                            .Select(group => new
+                            {
+                                TongTien = group.Sum(item => item.ChiTiet.tongtien),
+                                manccc = group.Key.mancc,
+                                NgayLap = group.Key.ngaylap,
+                                tennccc = group.Key.tenncc,
+                                mapnh=group.Key.mapnh
+                            });
                 }
+               
                 @if (Model != null && Model.Any())
                 {
                     foreach (var item in listtenncc)
                     {
 
                         <tr>
-                            <td>@item.tenncc</td>
-                            <td>@item.ngaylap</td>
-                            <td>@ShopHoaTuoi.Common.Common.FormatNumber(item.tongtien, 0)</td>
+                            <td>@item.tennccc</td>
+                            <td>@item.NgayLap</td>
+                            <td>@ShopHoaTuoi.Common.Common.FormatNumber(item.TongTien, 0)</td>
                             <td>
                                 <a href="/admin/phieunhaphoa/detail/@item.mapnh" class="btn btn-sm btn-outline-info">Xem chi tiết</a>
                             </td>
@@ -85,11 +112,10 @@
             </tbody>
 
         </table>
-
         <div class="row">
             <div class="col-6"></div>
-            <div class="col-6" style="text-align:right">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @class = "" }))
+            <div class="col-6" style="text-align:right;">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     </div>
@@ -106,5 +132,5 @@
 </div>
 @section scripts{
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-    
+
 }
